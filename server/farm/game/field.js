@@ -1,4 +1,5 @@
 var _cropFactory = require("./crop.js");
+var _seedFactory = require("./seed.js");
 
 exports.NewField = function(width, height) {
   return new Field(width, height);
@@ -17,6 +18,12 @@ function Field(width, height) {
     }
   }
 }
+
+Field.prototype.Plant = function Plant(x, y) {
+  var seed = _seedFactory.NewSeed();
+  this._field[x][y].PlantSeed(seed);
+};
+
 
 /**
  * Get the field 2d array of symbols to print on screen.

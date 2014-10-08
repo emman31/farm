@@ -1,11 +1,9 @@
-// Defines a Cell Factory.
-var _maxId = 1;
 exports.NewCrop = function() {
   return new Crop();
 };
 
 function Crop() {
-
+  this._plantedSeed = null;
 }
 
 Crop.prototype.PlantSeed = function(seed) {
@@ -20,5 +18,9 @@ Crop.prototype.GetPlantName = function() {
  * Get the symbol that represents whats is currently on the crop.
  */
 Crop.prototype.GetSymbol = function GetSymnbol() {
-  return 'x';
+  if (this._plantedSeed === null) {
+    return 'x';
+  }
+
+  return this._plantedSeed.GetSymbol();
 };

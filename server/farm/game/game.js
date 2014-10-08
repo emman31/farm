@@ -13,3 +13,7 @@ Game.prototype.GetField = function GetField() {
   console.log(this._field.GetField());
   return this._field.GetField();
 };
+
+Game.prototype.Plant = function Plant(x, y) {
+  this._field.Plant(x, y);
+}
