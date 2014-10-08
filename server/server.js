@@ -4,7 +4,7 @@ var http = require('http').createServer(onRequest),
   fs = require('fs');
   tanks = require('./farm');
 
-http.listen(8888);
+http.listen(7777);
 
 function onRequest(request, response) {
   var path = url.parse(request.url).pathname;
