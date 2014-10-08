@@ -2,9 +2,9 @@ var http = require('http').createServer(onRequest),
   io = require('socket.io').listen(http, {log: false}),
   url = require('url'),
   fs = require('fs');
-  tanks = require('./farm');
+  farm = require('./farm');
 
-http.listen(7777);
+http.listen(8888);
 
 function onRequest(request, response) {
   var path = url.parse(request.url).pathname;
@@ -50,7 +50,7 @@ io.sockets.on('connection', function(socket) {
   
   socket.on('execute', function(command, params) {
     console.log("Executing command '" + command + "' for client '" + id + "'.");
-    var functionToExecute = tanks[command];
+    var functionToExecute = farm[command];
 
     // Make sure the command is an existing function.
     if (typeof functionToExecute !== 'function') {
@@ -63,7 +63,7 @@ io.sockets.on('connection', function(socket) {
       params = new Array();
     }
     else if (!(params instanceof Array)) {
-      socket.emit('response', ["The 2nd parameter passed to Execute should be an array of parameters."]);
+      socket.emit('response', "ERROR", ["The 2nd parameter passed to Execute should be an array of parameters."]);
       console.log("The 2nd parameter passed to Execute should be an array of parameters.");
       return;
     }
@@ -71,11 +71,11 @@ io.sockets.on('connection', function(socket) {
     // Execute the function and make sure nothing crashes the server.
     var returnValue;
     try {
-      returnValue = functionToExecute.apply(tanks, params);
-      socket.emit('response', returnValue);
+      returnValue = functionToExecute.apply(farm, params);
+      socket.emit('response', command, returnValue);
     }
     catch (e) {
-      socket.emit('response', ["A server error occured. What are you trying to do?!?"]);
+      socket.emit('response', "ERROR", ["A server error occured. What are you trying to do?!?"]);
       console.log(e.stack);
     }
   });

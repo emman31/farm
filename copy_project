@@ -1,0 +1,6 @@
+#!/bin/ash
+
+scp -r ./client/* emman31@162.248.162.83:/home/emman31/farm/client/
+scp -r ./server/* emman31@162.248.162.83:/home/emman31/farm/server/
+scp ./* emman31@162.248.162.83:/home/emman31/farm/
+
