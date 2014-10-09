@@ -16,6 +16,7 @@ Crop.prototype.GetPlantName = function() {
 
 /**
  * Get the symbol that represents whats is currently on the crop.
+ * This is to send to client. Don't add unnecessary info.
  */
 Crop.prototype.GetSymbol = function GetSymnbol() {
   if (this._plantedSeed === null) {

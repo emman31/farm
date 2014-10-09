@@ -1,7 +1,7 @@
 var _seeds = {};
 
 /**
- * Initialise all existing seeds in the game.
+ * Initialize all existing seeds in the game.
  * @param {array} seeds
  */
 exports.SetSeeds = function SetSeeds(seeds) {
@@ -15,6 +15,11 @@ exports.SetSeeds = function SetSeeds(seeds) {
   }
 };
 
+/**
+ * Obtain a seed by it's symbol.
+ * @param {type} symbol
+ * @returns {seed} The seed that was found, or null if none exist with the given symbol.
+ */
 exports.GetSeed = function GetSeed(symbol) {
   if (_seeds.hasOwnProperty(symbol)) {
     return _seeds[symbol];
@@ -24,7 +29,8 @@ exports.GetSeed = function GetSeed(symbol) {
 };
 
 /**
- * Get all the seeds to show on screen
+ * Get all the seeds to show on screen.
+ * This is to send to client. Don't add unnecessary info.
  */
 exports.GetSeeds = function GetSeeds() {
   var seeds = new Array();
