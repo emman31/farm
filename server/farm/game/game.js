@@ -5,7 +5,7 @@ exports.NewGame = function() {
 };
 
 function Game() {
-  this._field = _field.NewField(10, 10);
+  this._field = _field.NewField(20, 10);
 }
 
 /**
@@ -13,8 +13,8 @@ function Game() {
  * @returns {GetField@pro;_field@call;GetField}
  */
 Game.prototype.GetField = function GetField() {
-  console.log("getting field");
-  console.log(this._field.GetField());
+  //console.log("getting field");
+  //console.log(this._field.GetField());
   return this._field.GetField();
 };
 

@@ -11,10 +11,10 @@ function Field(width, height) {
 
   // Fill the field with crops.
   this._field = new Array();
-  for (var x = 0; x < width; x ++) {
-    this._field[x] = new Array();
-    for (var y = 0; y < height; y ++) {
-      this._field[x][y] = _cropFactory.NewCrop();
+  for (var y = 0; y < height; y ++) {
+    this._field[y] = new Array();
+    for (var x = 0; x < width; x ++) {
+      this._field[y][x] = _cropFactory.NewCrop();
     }
   }
 }
@@ -27,7 +27,7 @@ function Field(width, height) {
  */
 Field.prototype.Plant = function Plant(symbol, x, y) {
   var seed = _seedFactory.GetSeed(symbol);
-  this._field[x][y].PlantSeed(seed);
+  this._field[y][x].PlantSeed(seed);
 };
 
 
@@ -38,10 +38,10 @@ Field.prototype.Plant = function Plant(symbol, x, y) {
 Field.prototype.GetField = function GetField() {
   var field = new Array();
 
-  for (var x = 0; x < this.Width; x ++) {
-    field[x] = new Array();
-    for (var y = 0; y < this.Height; y ++) {
-      field[x][y] = this._field[x][y].GetSymbol();
+  for (var y = 0; y < this.Height; y ++) {
+    field[y] = new Array();
+    for (var x = 0; x < this.Width; x ++) {
+      field[y][x] = this._field[y][x].GetSymbol();
     }
   }
 
