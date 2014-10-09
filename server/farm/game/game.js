@@ -14,6 +14,6 @@ Game.prototype.GetField = function GetField() {
   return this._field.GetField();
 };
 
-Game.prototype.Plant = function Plant(x, y) {
-  this._field.Plant(x, y);
+Game.prototype.Plant = function Plant(symbol, x, y) {
+  this._field.Plant(symbol, x, y);
 }

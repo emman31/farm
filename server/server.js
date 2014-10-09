@@ -47,7 +47,7 @@ function onRequest(request, response) {
 io.sockets.on('connection', function(socket) {
   var id = socket.id;
   console.log("Client connected: " + id);
-  
+
   socket.on('execute', function(command, params) {
     console.log("Executing command '" + command + "' for client '" + id + "'.");
     var functionToExecute = farm[command];
@@ -80,5 +80,7 @@ io.sockets.on('connection', function(socket) {
     }
   });
 });
+
+farm.InitServer();
 
 console.log("Server has started.");

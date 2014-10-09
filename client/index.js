@@ -11,7 +11,7 @@ $(window).load(function document_ready() {
       switch (executedFunction) {
         case "NewGame":
         case "Plant":
-          RefreshField(returnValue);
+          RefreshField(returnValue.field);
           break;
       }
     }
@@ -29,7 +29,7 @@ $(window).load(function document_ready() {
     }
 
     $(".crop").click(function CropClicked() {
-      socket.emit('execute', 'Plant', [$(this).attr('x'), $(this).attr('y')]);
+      socket.emit('execute', 'Plant', ['S', $(this).attr('x'), $(this).attr('y')]);
     });
   }
 

@@ -19,8 +19,8 @@ function Field(width, height) {
   }
 }
 
-Field.prototype.Plant = function Plant(x, y) {
-  var seed = _seedFactory.NewSeed();
+Field.prototype.Plant = function Plant(symbol, x, y) {
+  var seed = _seedFactory.GetSeed(symbol);
   this._field[x][y].PlantSeed(seed);
 };
 
