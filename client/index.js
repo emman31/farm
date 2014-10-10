@@ -36,7 +36,7 @@ $(window).load(function document_ready() {
   }
 
   function CreateCropButton(x, y, symbol) {
-    return "<button class='crop' x=" + x + " y=" + y + ">" + symbol + "</button>";
+    return "<span class='crop' x=" + x + " y=" + y + ">" + symbol + "</span>";
   }
 
 

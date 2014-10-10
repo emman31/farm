@@ -34,7 +34,7 @@ Crop.prototype.GrowPlant = function GrowPlant(crop) {
  */
 Crop.prototype.GetSymbol = function GetSymbol() {
   if (this._plantedSeed === null) {
-    return 'x';
+    return ' ';
   }
 
   return this._plantedSeed.GetSymbol(this._currentStage);
