@@ -59,7 +59,6 @@ Seed.prototype.GetStageTimer = function GetStageTimer(stageNb) {
 };
 
 Seed.prototype.GetSymbol = function GetSymbol(stageNb) {
-  console.log("Getting symbol for " + stageNb);
   return this._definition.stages[stageNb].symbol;
 };
 

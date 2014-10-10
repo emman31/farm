@@ -14,8 +14,6 @@ function Game(socket) {
  * @returns {GetField@pro;_field@call;GetField}
  */
 Game.prototype.GetField = function GetField() {
-  //console.log("getting field");
-  //console.log(this._field.GetField());
   return this._field.GetField();
 };
 

@@ -38,7 +38,6 @@ exports.NewGame = function NewGame(socket) {
  * @param {int} y the y coordinate of the crop in wich to plant.
  */
 exports.Plant = function Plant(socket, symbol, x, y) {
-  console.log("Planting" + x + ", " + y);
   this._game.Plant(symbol, x, y);
   return {
     "field": this._game.GetField()

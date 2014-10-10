@@ -2,8 +2,8 @@
   "id": "sample",
   "name": "Sample Seed",
   "stages": [
-    {"symbol":".", "time":2},
-    {"symbol":"s", "time":5},
+    {"symbol":".", "time":10},
+    {"symbol":"s", "time":20},
     {"symbol":"S"}
   ]
 }
