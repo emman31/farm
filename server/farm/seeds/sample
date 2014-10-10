@@ -1,4 +1,9 @@
 {
-  "symbol": "S",
-  "name": "Sample Seed"
+  "id": "sample",
+  "name": "Sample Seed",
+  "stages": [
+    {"symbol":".", "time":2},
+    {"symbol":"s", "time":5},
+    {"symbol":"S"}
+  ]
 }

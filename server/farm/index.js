@@ -7,7 +7,7 @@ var games = [];
  * Initialise the server. This is executed only once when the server starts.
  * @returns {undefined}
  */
-exports.InitServer = function InitServer() {
+exports.InitServer = function InitServer(socket) {
   var files = fs.readdirSync("server/farm/seeds/");
 
   // Here we load all seeds found in the 'seeds' folder.
@@ -23,8 +23,8 @@ exports.InitServer = function InitServer() {
 /**
  * Create a new game.
  */
-exports.NewGame = function NewGame() {
-  this._game = _gameFactory.NewGame();
+exports.NewGame = function NewGame(socket) {
+  this._game = _gameFactory.NewGame(socket);
   return {
     "field": this._game.GetField(),
     "seeds": _seedFactory.GetSeeds()
@@ -37,7 +37,7 @@ exports.NewGame = function NewGame() {
  * @param {int} x the x coordinate of the crop in wich to plant.
  * @param {int} y the y coordinate of the crop in wich to plant.
  */
-exports.Plant = function Plant(symbol, x, y) {
+exports.Plant = function Plant(socket, symbol, x, y) {
   console.log("Planting" + x + ", " + y);
   this._game.Plant(symbol, x, y);
   return {

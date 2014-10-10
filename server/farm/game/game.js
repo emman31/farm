@@ -1,11 +1,12 @@
 var _field = require("./field.js");
 
-exports.NewGame = function() {
-  return new Game();
+exports.NewGame = function(socket) {
+  return new Game(socket);
 };
 
-function Game() {
-  this._field = _field.NewField(20, 10);
+function Game(socket) {
+  this._socket = socket;
+  this._field = _field.NewField(this._socket, 20, 10);
 }
 
 /**
@@ -24,6 +25,6 @@ Game.prototype.GetField = function GetField() {
  * @param {int} x the x coordinate of the crop in wich to plant.
  * @param {int} y the y coordinate of the crop in wich to plant.
  */
-Game.prototype.Plant = function Plant(symbol, x, y) {
-  this._field.Plant(symbol, x, y);
+Game.prototype.Plant = function Plant(seedId, x, y) {
+  this._field.Plant(seedId, x, y);
 }

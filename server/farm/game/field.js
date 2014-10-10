@@ -1,11 +1,12 @@
 var _cropFactory = require("./crop.js");
 var _seedFactory = require("./seed.js");
 
-exports.NewField = function(width, height) {
-  return new Field(width, height);
+exports.NewField = function(socket, width, height) {
+  return new Field(socket, width, height);
 };
 
-function Field(width, height) {
+function Field(socket, width, height) {
+  this._socket = socket;
   this.Width = width;
   this.Height = height;
 
@@ -14,7 +15,7 @@ function Field(width, height) {
   for (var y = 0; y < height; y ++) {
     this._field[y] = new Array();
     for (var x = 0; x < width; x ++) {
-      this._field[y][x] = _cropFactory.NewCrop();
+      this._field[y][x] = _cropFactory.NewCrop(this._socket, x, y);
     }
   }
 }
@@ -25,8 +26,8 @@ function Field(width, height) {
  * @param {int} x the x coordinate of the crop in wich to plant.
  * @param {int} y the y coordinate of the crop in wich to plant.
  */
-Field.prototype.Plant = function Plant(symbol, x, y) {
-  var seed = _seedFactory.GetSeed(symbol);
+Field.prototype.Plant = function Plant(seedId, x, y) {
+  var seed = _seedFactory.GetSeed(seedId);
   this._field[y][x].PlantSeed(seed);
 };
 

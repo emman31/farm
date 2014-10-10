@@ -71,6 +71,7 @@ io.sockets.on('connection', function(socket) {
     // Execute the function and make sure nothing crashes the server.
     var returnValue;
     try {
+      params.unshift(socket);
       returnValue = functionToExecute.apply(farm, params);
       socket.emit('response', command, returnValue);
     }

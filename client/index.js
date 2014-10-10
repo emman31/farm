@@ -13,6 +13,8 @@ $(window).load(function document_ready() {
         case "Plant":
           RefreshField(returnValue.field);
           break;
+        case "GrowPlant":
+          GrowPlant(returnValue[0], returnValue[1], returnValue[2]);
       }
     }
 
@@ -29,7 +31,7 @@ $(window).load(function document_ready() {
     }
 
     $(".crop").click(function CropClicked() {
-      socket.emit('execute', 'Plant', ['S', $(this).attr('x'), $(this).attr('y')]);
+      socket.emit('execute', 'Plant', ['sample', $(this).attr('x'), $(this).attr('y')]);
     });
   }
 
@@ -37,4 +39,8 @@ $(window).load(function document_ready() {
     return "<button class='crop' x=" + x + " y=" + y + ">" + symbol + "</button>";
   }
 
+
+  function GrowPlant(symbol, x, y) {
+    $("[x=" + x + "][y=" + y + "]").html(symbol);
+  }
 });
