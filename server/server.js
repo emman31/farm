@@ -49,7 +49,10 @@ io.sockets.on('connection', function(socket) {
   console.log("Client connected: " + id);
 
   socket.on('execute', function(command, params) {
-    console.log("Executing command '" + command + "' for client '" + id + "'.");
+    var date = new Date();
+    var time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+
+    console.log(time + ": Executing command '" + command + "' for client '" + id + "'.");
     var functionToExecute = farm[command];
 
     // Make sure the command is an existing function.

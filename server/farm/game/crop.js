@@ -17,7 +17,6 @@ function Crop(x, y) {
 }
 
 Crop.prototype.PlantSeed = function(seed) {
-  console.log(this._x + "," + this._y + ": Plant");
   this._plantedSeed = seed;
   this._currentStage = 0;
   this._growingTimeoutId = _time.SetTimeout(this.GrowPlant, seed.GetStageTimer(this._currentStage), this);
@@ -25,7 +24,6 @@ Crop.prototype.PlantSeed = function(seed) {
 };
 
 Crop.prototype.Water = function() {
-  console.log(this._x + "," + this._y + ": Water");
   this._watered = true;
   _time.ClearTimeout(this._waterTimeoutId);
   _time.ClearTimeout(this._deathTimeoutId);
@@ -35,7 +33,6 @@ Crop.prototype.Water = function() {
 };
 
 Crop.prototype.Dry = function Dry(crop) {
-  console.log(crop._x + "," + crop._y + ": Dry");
   crop._watered = false;
   crop._waterTimeoutId = null;
   crop._deathTimeoutId = _time.SetTimeout(crop.Die, crop._plantedSeed.GetDeathTimer(), crop);
@@ -44,7 +41,6 @@ Crop.prototype.Dry = function Dry(crop) {
 
 Crop.prototype.Die = function Die(crop) {
   if (crop._watered === false) {
-    console.log(crop._x + "," + crop._y + ": Die");
     crop._dead = true;
     crop._deathTimeoutId = null;
     crop._socket.emit('response', "Died", [crop._x, crop._y]);
