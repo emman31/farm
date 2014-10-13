@@ -8,7 +8,7 @@ exports.SetSeeds = function SetSeeds(seeds) {
   for (var i = 0; i < seeds.length; i++) {
     var seed = new Seed();
     seed._definition = seeds[i];
-    _seeds[seeds[i].id] = seed;
+    _seeds[seeds[i].Id] = seed;
   }
 };
 
@@ -50,8 +50,8 @@ function Seed() {
  * @returns {int} Time in seconds
  */
 Seed.prototype.GetStageTimer = function GetStageTimer(stageNb) {
-  if(this._definition.stages[stageNb].hasOwnProperty("time")) {
-    return this._definition.stages[stageNb].time;
+  if(this._definition.Stages[stageNb].hasOwnProperty("Time")) {
+    return this._definition.Stages[stageNb].Time;
   }
   else {
     return null;
@@ -59,12 +59,20 @@ Seed.prototype.GetStageTimer = function GetStageTimer(stageNb) {
 };
 
 Seed.prototype.GetSymbol = function GetSymbol(stageNb) {
-  return this._definition.stages[stageNb].symbol;
+  return this._definition.Stages[stageNb].Symbol;
+};
+
+Seed.prototype.GetWateringDuration = function GetWateringDuration() {
+  return this._definition.WateringDuration;
+};
+
+Seed.prototype.GetDeathTimer = function GetDeathTimer() {
+  return this._definition.DeathTimer;
 };
 
 Seed.prototype.StageExists = function StageExist(stageNb) {
-  return stageNb < this._definition.stages.length;
-}
+  return stageNb < this._definition.Stages.length;
+};
 
 Seed.prototype.GetName = function GetName() {
   return this._name;

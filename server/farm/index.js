@@ -44,3 +44,7 @@ exports.Plant = function Plant(socket, symbol, x, y) {
     "field": this._game.GetField()
   };
 };
+
+exports.WaterCrop = function WaterCrop(socket, x, y) {
+  this._game.WaterCrop(x, y);
+};

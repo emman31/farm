@@ -34,7 +34,7 @@ Time.prototype.ChangeDayPhase = function ChangeDayPhase(time) {
  * @returns {undefined}
  */
 exports.SetTimeout = function SetTimeout(functionToExecute, seconds, args) {
-  setTimeout(
+  return setTimeout(
     function setTimeout(functionToExecute, args) {
       try{
         functionToExecute(args);
@@ -46,4 +46,18 @@ exports.SetTimeout = function SetTimeout(functionToExecute, seconds, args) {
     seconds * 1000,
     functionToExecute, args
   );
+};
+
+/**
+ * Prevent a timeout from triggering.
+ * @param {type} timeoutId The timeout Id as returned from SetTimeout.
+ * @returns {undefined}
+ */
+exports.ClearTimeout = function ClearTimeout(timeoutId) {
+  try{
+    clearTimeout(timeoutId);
+  }
+  catch(e) {
+    console.log(e.stack);
+  }
 };

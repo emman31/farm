@@ -31,6 +31,15 @@ Field.prototype.Plant = function Plant(seedId, x, y) {
   this._field[y][x].PlantSeed(seed);
 };
 
+/**
+ * Water a crop.
+ * @param {int} x the x coordinate of the crop in wich to plant.
+ * @param {int} y the y coordinate of the crop in wich to plant.
+ */
+Field.prototype.WaterCrop = function WaterCrop(x, y) {
+  this._field[y][x].Water();
+};
+
 
 /**
  * Get the field 2d array of symbols to print on screen.

@@ -19,6 +19,15 @@ $(window).load(function document_ready() {
         case "ChangeDayPhase":
           ChangeDayPhase(returnValue[0], returnValue[1]);
           break;
+        case "Watered":
+          WaterCrop(returnValue[0], returnValue[1], returnValue[2]);
+          break;
+        case "Dried":
+          DryCrop(returnValue[0], returnValue[1], returnValue[2]);
+          break;
+        case "Died":
+          DieCrop(returnValue[0], returnValue[1]);
+          break;
       }
     }
 
@@ -34,8 +43,16 @@ $(window).load(function document_ready() {
       $("#field").append(row + "<br />");
     }
 
+    $("#field").css("width", x * 24);
+    $("#field").css("height", y * 24);
+
     $(".crop").click(function CropClicked() {
-      socket.emit('execute', 'Plant', ['sample', $(this).attr('x'), $(this).attr('y')]);
+      if (watering) {
+        socket.emit('execute', 'WaterCrop', [$(this).attr('x'), $(this).attr('y')]);
+      }
+      else {
+        socket.emit('execute', 'Plant', ['sample', $(this).attr('x'), $(this).attr('y')]);
+      }
     });
   }
 
@@ -47,7 +64,32 @@ $(window).load(function document_ready() {
     $("[x=" + x + "][y=" + y + "]").html(symbol);
   }
 
+  function WaterCrop(timer, x, y) {
+    $("[x=" + x + "][y=" + y + "]").css("background-color", "cyan");
+  }
+
+  function DryCrop(timer, x, y) {
+    $("[x=" + x + "][y=" + y + "]").css("background-color", "white");
+  }
+
+  function DieCrop(x, y) {
+    $("[x=" + x + "][y=" + y + "]").css("background-color", "white");
+    $("[x=" + x + "][y=" + y + "]").html("x");
+  }
+
   function ChangeDayPhase(name, duration) {
     $("#time").html(name);
   }
+
+  var watering = false;
+  $("#water").click(function OnWaterClick() {
+    watering = !watering;
+
+    if (watering) {
+      $(this).css("background-color", "cyan");
+    }
+    else {
+      $(this).css("background-color", "white");
+    }
+  });
 });

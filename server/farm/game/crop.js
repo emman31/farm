@@ -9,13 +9,46 @@ exports.NewCrop = function(socket, x, y) {
 function Crop(x, y) {
   this._x = x;
   this._y = y;
+  this._watered = false;
   this._plantedSeed = null;
+  this._growingTimeoutId = null;
+  this._waterTimeoutId = null;
+  this._deathTimeoutId = null;
 }
 
 Crop.prototype.PlantSeed = function(seed) {
+  console.log(this._x + "," + this._y + ": Plant");
   this._plantedSeed = seed;
   this._currentStage = 0;
-  _time.SetTimeout(this.GrowPlant, seed.GetStageTimer(this._currentStage), this);
+  this._growingTimeoutId = _time.SetTimeout(this.GrowPlant, seed.GetStageTimer(this._currentStage), this);
+  this._deathTimeoutId = _time.SetTimeout(this.Die, this._plantedSeed.GetDeathTimer(), this);
+};
+
+Crop.prototype.Water = function() {
+  console.log(this._x + "," + this._y + ": Water");
+  this._watered = true;
+  _time.ClearTimeout(this._waterTimeoutId);
+  _time.ClearTimeout(this._deathTimeoutId);
+
+  this._waterTimeoutId = _time.SetTimeout(this.Dry, this._plantedSeed.GetWateringDuration(), this);
+  this._socket.emit('response', "Watered", [this._plantedSeed.GetWateringDuration(), this._x, this._y]);
+};
+
+Crop.prototype.Dry = function Dry(crop) {
+  console.log(crop._x + "," + crop._y + ": Dry");
+  crop._watered = false;
+  crop._waterTimeoutId = null;
+  crop._deathTimeoutId = _time.SetTimeout(crop.Die, crop._plantedSeed.GetDeathTimer(), crop);
+  crop._socket.emit('response', "Dried", [crop._plantedSeed.GetDeathTimer(), crop._x, crop._y]);
+};
+
+Crop.prototype.Die = function Die(crop) {
+  if (crop._watered === false) {
+    console.log(crop._x + "," + crop._y + ": Die");
+    crop._dead = true;
+    crop._deathTimeoutId = null;
+    crop._socket.emit('response', "Died", [crop._x, crop._y]);
+  }
 };
 
 Crop.prototype.GetPlantName = function() {
@@ -23,10 +56,11 @@ Crop.prototype.GetPlantName = function() {
 };
 
 Crop.prototype.GrowPlant = function GrowPlant(crop) {
-  if (crop._plantedSeed.StageExists(crop._currentStage + 1)) {
+  crop._growingTimeoutId = null;
+  if (!crop._dead && crop._plantedSeed.StageExists(crop._currentStage + 1)) {
     crop._currentStage++;
     crop._socket.emit('response', "GrowPlant", [crop._plantedSeed.GetSymbol(crop._currentStage), crop._x, crop._y]);
-    _time.SetTimeout(crop.GrowPlant, crop._plantedSeed.GetStageTimer(crop._currentStage), crop);
+    crop._growingTimeoutId = _time.SetTimeout(crop.GrowPlant, crop._plantedSeed.GetStageTimer(crop._currentStage), crop);
   }
 };
 

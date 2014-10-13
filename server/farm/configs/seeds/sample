@@ -1,9 +1,11 @@
 {
-  "id": "sample",
-  "name": "Sample Seed",
-  "stages": [
-    {"symbol":".", "time":10},
-    {"symbol":"s", "time":20},
-    {"symbol":"S"}
+  "Id": "sample",
+  "Name": "Sample Seed",
+  "WateringDuration": 10,
+  "DeathTimer": 10,
+  "Stages": [
+    {"Symbol":".", "Time":10},
+    {"Symbol":"s", "Time":20},
+    {"Symbol":"S"}
   ]
 }

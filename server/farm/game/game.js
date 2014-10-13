@@ -21,10 +21,19 @@ Game.prototype.GetField = function GetField() {
 
 /**
  * Plant a seed in a crop.
- * @param {string} symbol The symbol representing the seed to plant.
+ * @param {string} seedId The seed's id.
  * @param {int} x the x coordinate of the crop in wich to plant.
  * @param {int} y the y coordinate of the crop in wich to plant.
  */
 Game.prototype.Plant = function Plant(seedId, x, y) {
   this._field.Plant(seedId, x, y);
-}
+};
+
+/**
+ * water a crop.
+ * @param {int} x the x coordinate of the crop in wich to plant.
+ * @param {int} y the y coordinate of the crop in wich to plant.
+ */
+Game.prototype.WaterCrop = function WaterCrop(x, y) {
+  this._field.WaterCrop(x, y);
+};
