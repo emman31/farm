@@ -5,6 +5,7 @@ exports.NewTime = function(socket, time) {
 function Time(socket, time) {
   this._socket = socket;
   this._time = time;
+  this._day = 1;
   this._currentPhase = -1;
   this.ChangeDayPhase(this);
 }
@@ -19,9 +20,10 @@ Time.prototype.ChangeDayPhase = function ChangeDayPhase(time) {
   time._currentPhase ++;
   if (time._currentPhase >= time._time.DayPhases.length) {
     time._currentPhase = 0;
+    time._day ++;
   }
 
-  time._socket.emit('response', "ChangeDayPhase", [time._time.DayPhases[time._currentPhase].Name, time._time.DayPhases[time._currentPhase].Duration]);
+  time._socket.emit('response', "ChangeDayPhase", [time._day, time._time.DayPhases[time._currentPhase].Name, time._time.DayPhases[time._currentPhase].Duration]);
   exports.SetTimeout(time.ChangeDayPhase, time._time.DayPhases[time._currentPhase].Duration, time);
 };
 

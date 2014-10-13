@@ -17,7 +17,7 @@ $(window).load(function document_ready() {
           GrowPlant(returnValue[0], returnValue[1], returnValue[2]);
           break;
         case "ChangeDayPhase":
-          ChangeDayPhase(returnValue[0], returnValue[1]);
+          ChangeDayPhase(returnValue[0], returnValue[1], returnValue[2]);
           break;
         case "Watered":
           WaterCrop(returnValue[0], returnValue[1], returnValue[2]);
@@ -77,8 +77,8 @@ $(window).load(function document_ready() {
     $("[x=" + x + "][y=" + y + "]").html("x");
   }
 
-  function ChangeDayPhase(name, duration) {
-    $("#time").html(name);
+  function ChangeDayPhase(day, name, duration) {
+    $("#time").html("Day " + day + " " + name);
   }
 
   var watering = false;
