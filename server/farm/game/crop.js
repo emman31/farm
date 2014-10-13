@@ -24,12 +24,14 @@ Crop.prototype.PlantSeed = function(seed) {
 };
 
 Crop.prototype.Water = function() {
-  this._watered = true;
-  _time.ClearTimeout(this._waterTimeoutId);
-  _time.ClearTimeout(this._deathTimeoutId);
+  if (this._plantedSeed !== null) {
+    this._watered = true;
+    _time.ClearTimeout(this._waterTimeoutId);
+    _time.ClearTimeout(this._deathTimeoutId);
 
-  this._waterTimeoutId = _time.SetTimeout(this.Dry, this._plantedSeed.GetWateringDuration(), this);
-  this._socket.emit('response', "Watered", [this._plantedSeed.GetWateringDuration(), this._x, this._y]);
+    this._waterTimeoutId = _time.SetTimeout(this.Dry, this._plantedSeed.GetWateringDuration(), this);
+    this._socket.emit('response', "Watered", [this._plantedSeed.GetWateringDuration(), this._x, this._y]);
+  }
 };
 
 Crop.prototype.Dry = function Dry(crop) {
