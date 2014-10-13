@@ -15,6 +15,10 @@ $(window).load(function document_ready() {
           break;
         case "GrowPlant":
           GrowPlant(returnValue[0], returnValue[1], returnValue[2]);
+          break;
+        case "ChangeDayPhase":
+          ChangeDayPhase(returnValue[0], returnValue[1]);
+          break;
       }
     }
 
@@ -39,8 +43,11 @@ $(window).load(function document_ready() {
     return "<span class='crop' x=" + x + " y=" + y + ">" + symbol + "</span>";
   }
 
-
   function GrowPlant(symbol, x, y) {
     $("[x=" + x + "][y=" + y + "]").html(symbol);
+  }
+
+  function ChangeDayPhase(name, duration) {
+    $("#time").html(name);
   }
 });

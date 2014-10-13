@@ -1,0 +1,8 @@
+{
+  "DayPhases": [
+    {"Duration": 5, "Name":"Morning"},
+    {"Duration": 5, "Name":"Day"},
+    {"Duration": 5, "Name":"Evening"},
+    {"Duration": 5, "Name":"Night"}
+  ]
+}

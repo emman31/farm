@@ -8,14 +8,12 @@ var games = [];
  * @returns {undefined}
  */
 exports.InitServer = function InitServer(socket) {
-  var files = fs.readdirSync("server/farm/seeds/");
-
-  // Here we load all seeds found in the 'seeds' folder.
+  // Loading all seeds from the seeds folder.
+  var files = fs.readdirSync("server/farm/configs/seeds/");
   var seeds = new Array();
   for(var i = 0; i < files.length; i++) {
-    seeds.push(JSON.parse(fs.readFileSync("server/farm/seeds/" + files[i], 'utf8')));
+    seeds.push(JSON.parse(fs.readFileSync("server/farm/configs/seeds/" + files[i], 'utf8')));
   }
-
   _seedFactory.SetSeeds(seeds);
   console.log(seeds);
 };
@@ -24,7 +22,10 @@ exports.InitServer = function InitServer(socket) {
  * Create a new game.
  */
 exports.NewGame = function NewGame(socket) {
-  this._game = _gameFactory.NewGame(socket);
+  // Loading time configs.
+  var time = JSON.parse(fs.readFileSync("server/farm/configs/time", 'utf8'));
+  this._game = _gameFactory.NewGame(socket, time);
+
   return {
     "field": this._game.GetField(),
     "seeds": _seedFactory.GetSeeds()

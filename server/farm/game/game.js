@@ -1,11 +1,13 @@
 var _field = require("./field.js");
+var _time = require("./time.js");
 
-exports.NewGame = function(socket) {
-  return new Game(socket);
+exports.NewGame = function(socket, time) {
+  return new Game(socket, time);
 };
 
-function Game(socket) {
+function Game(socket, time) {
   this._socket = socket;
+  this._time = _time.NewTime(socket, time);
   this._field = _field.NewField(this._socket, 20, 10);
 }
 
