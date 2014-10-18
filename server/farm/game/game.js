@@ -21,12 +21,12 @@ Game.prototype.GetField = function GetField() {
 
 /**
  * Plant a seed in a crop.
- * @param {string} seedId The seed's id.
+ * @param {seed} seed The seed.
  * @param {int} x the x coordinate of the crop in wich to plant.
  * @param {int} y the y coordinate of the crop in wich to plant.
  */
-Game.prototype.Plant = function Plant(seedId, x, y) {
-  this._field.Plant(seedId, x, y);
+Game.prototype.Plant = function Plant(seed, x, y) {
+  this._field.Plant(seed, x, y);
 };
 
 /**
@@ -36,4 +36,8 @@ Game.prototype.Plant = function Plant(seedId, x, y) {
  */
 Game.prototype.WaterCrop = function WaterCrop(x, y) {
   this._field.WaterCrop(x, y);
+};
+
+Game.prototype.FertilizeCrop = function FertilizeCrop(fertilizer, x, y) {
+  this._field.FertilizeCrop(fertilizer, x, y);
 };

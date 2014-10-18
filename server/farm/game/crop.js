@@ -21,6 +21,7 @@ Crop.prototype.PlantSeed = function(seed) {
   this._currentStage = 0;
   this._growingTimeoutId = _time.SetTimeout(this.GrowPlant, seed.GetStageTimer(this._currentStage), this);
   this._deathTimeoutId = _time.SetTimeout(this.Die, this._plantedSeed.GetDeathTimer(), this);
+  this._socket.emit('response', "Plant", [this._plantedSeed.GetSymbol(this._currentStage), this._x, this._y]);
 };
 
 Crop.prototype.Water = function() {
@@ -32,6 +33,11 @@ Crop.prototype.Water = function() {
     this._waterTimeoutId = _time.SetTimeout(this.Dry, this._plantedSeed.GetWateringDuration(), this);
     this._socket.emit('response', "Watered", [this._plantedSeed.GetWateringDuration(), this._x, this._y]);
   }
+};
+
+Crop.prototype.Fertilize = function Fertilize(fertilizer) {
+  this._fertilizer = fertilizer;
+  this._socket.emit('response', "Fertilized", [this._x, this._y]);
 };
 
 Crop.prototype.Dry = function Dry(crop) {

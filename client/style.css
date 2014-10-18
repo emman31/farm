@@ -16,10 +16,12 @@
   text-align: center;
 }
 
+#fertilize:hover,
 #water:hover {
   cursor:default;
 }
 
+#fertilize,
 #water {
   border: 1px solid black;
   margin-top: 5px;

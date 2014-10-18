@@ -1,0 +1,7 @@
+{
+  "Id": "fert1",
+  "Name": "Fertilizer 1",
+  "Minerals": [
+    "iron", "manganese", "copper", "zinc"
+  ]
+}

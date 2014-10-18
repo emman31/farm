@@ -22,12 +22,11 @@ function Field(socket, width, height) {
 
 /**
  * Plant a seed in a crop.
- * @param {string} symbol The symbol representing the seed to plant.
+ * @param {seed} seed The seed to plant
  * @param {int} x the x coordinate of the crop in wich to plant.
  * @param {int} y the y coordinate of the crop in wich to plant.
  */
-Field.prototype.Plant = function Plant(seedId, x, y) {
-  var seed = _seedFactory.GetSeed(seedId);
+Field.prototype.Plant = function Plant(seed, x, y) {
   this._field[y][x].PlantSeed(seed);
 };
 
@@ -40,6 +39,9 @@ Field.prototype.WaterCrop = function WaterCrop(x, y) {
   this._field[y][x].Water();
 };
 
+Field.prototype.FertilizeCrop = function FertilizeCrop(fertilizer, x, y) {
+  this._field[y][x].Fertilize(fertilizer);
+};
 
 /**
  * Get the field 2d array of symbols to print on screen.

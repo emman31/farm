@@ -7,5 +7,8 @@
     {"Symbol":".", "Time":10},
     {"Symbol":"s", "Time":20},
     {"Symbol":"S"}
+  ],
+  "NeededMinerals": [
+    "iron", "manganese", "copper", "zinc"
   ]
 }

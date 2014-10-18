@@ -13,9 +13,9 @@ exports.SetSeeds = function SetSeeds(seeds) {
 };
 
 /**
- * Obtain a seed by it's symbol.
+ * Obtain a seed by it's id.
  * @param {type} seedId
- * @returns {seed} The seed that was found, or null if none exist with the given symbol.
+ * @returns {seed} The seed that was found, or null if none exist with the given id.
  */
 exports.GetSeed = function GetSeed(seedId) {
   if (_seeds.hasOwnProperty(seedId)) {
