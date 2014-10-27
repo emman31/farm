@@ -34,7 +34,23 @@ exports.InitServer = function InitServer(socket) {
 exports.NewGame = function NewGame(socket) {
   // Loading time configs.
   var time = JSON.parse(fs.readFileSync("server/farm/configs/time", 'utf8'));
-  this._game = _gameFactory.NewGame(socket, time);
+  this._game = _gameFactory.NewGame(socket, time, 20, 10);
+
+  return {
+    "field": this._game.GetField(),
+    "seeds": _seedFactory.GetSeeds()
+  };
+};
+
+/**
+ * Create a new game.
+ */
+exports.NewGameConcept1 = function NewGameConcept1(socket) {
+  // Loading time configs.
+  var time = JSON.parse(fs.readFileSync("server/farm/configs/time", 'utf8'));
+  this._game = _gameFactory.NewGame(socket, time, 1, 1);
+  this._game.CreateInventory();
+  this._game._inventory.AddItem("sample_seed", 5);
 
   return {
     "field": this._game.GetField(),

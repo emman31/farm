@@ -1,14 +1,15 @@
 var _field = require("./field.js");
+var _inventory = require("./inventory.js");
 var _time = require("./time.js");
 
-exports.NewGame = function(socket, time) {
-  return new Game(socket, time);
+exports.NewGame = function(socket, time, width, height) {
+  return new Game(socket, time, width, height);
 };
 
-function Game(socket, time) {
+function Game(socket, time, width, height) {
   this._socket = socket;
   this._time = _time.NewTime(socket, time);
-  this._field = _field.NewField(this._socket, 20, 10);
+  this._field = _field.NewField(this._socket, width, height);
 }
 
 /**
@@ -40,4 +41,8 @@ Game.prototype.WaterCrop = function WaterCrop(x, y) {
 
 Game.prototype.FertilizeCrop = function FertilizeCrop(fertilizer, x, y) {
   this._field.FertilizeCrop(fertilizer, x, y);
+};
+
+Game.prototype.CreateInventory = function CreateInventory() {
+  this._inventory = _inventory.CreateInventory();
 };

@@ -1,0 +1,11 @@
+.action_button {
+  border: 1px solid black;
+  margin-top: 5px;
+  height: 20px;
+  width: 100px;
+  text-align: center;
+}
+
+.action_button:hover {
+  cursor:default;
+}
