@@ -16,6 +16,14 @@ function Crop(x, y) {
   this._deathTimeoutId = null;
 }
 
+/**
+ * Is it possible to plant a seed?
+ * @returns {Boolean}
+ */
+Crop.prototype.CanPlant = function CanPlant() {
+  return this._plantedSeed === null;
+}
+
 Crop.prototype.PlantSeed = function(seed) {
   this._plantedSeed = seed;
   this._currentStage = 0;

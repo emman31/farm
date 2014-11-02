@@ -31,6 +31,22 @@ Field.prototype.Plant = function Plant(seed, x, y) {
 };
 
 /**
+ * Plant a seed in a free crop.
+ * @param {seed} seed The seed to plant
+ */
+Field.prototype.PlantAnywhere = function PlantAnywhere(seed) {
+  var planted = false;
+  for (var y = 0; y < this.Height && !planted; y ++) {
+    for (var x = 0; x < this.Width && !planted; x ++) {
+      if (this._field[y][x].CanPlant()) {
+        this._field[y][x].PlantSeed(seed);
+        planted = true;
+      }
+    }
+  }
+};
+
+/**
  * Water a crop.
  * @param {int} x the x coordinate of the crop in wich to plant.
  * @param {int} y the y coordinate of the crop in wich to plant.

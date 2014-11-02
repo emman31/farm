@@ -31,6 +31,17 @@ Game.prototype.Plant = function Plant(seed, x, y) {
 };
 
 /**
+ * Plant a seed in a free crop.
+ * @param {seed} seed The seed.
+ */
+Game.prototype.PlantAnywhere = function PlantAnywhere(seed) {
+  if (this._inventory.ContainsItem(seed)) {
+    this._field.PlantAnywhere(seed);
+    this._inventory.RemoveItem(seed);
+  }
+};
+
+/**
  * water a crop.
  * @param {int} x the x coordinate of the crop in wich to plant.
  * @param {int} y the y coordinate of the crop in wich to plant.
@@ -43,6 +54,6 @@ Game.prototype.FertilizeCrop = function FertilizeCrop(fertilizer, x, y) {
   this._field.FertilizeCrop(fertilizer, x, y);
 };
 
-Game.prototype.CreateInventory = function CreateInventory() {
-  this._inventory = _inventory.CreateInventory();
+Game.prototype.CreateInventory = function CreateInventory(socket) {
+  this._inventory = _inventory.NewInventory(socket);
 };

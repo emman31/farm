@@ -77,3 +77,15 @@ Seed.prototype.StageExists = function StageExist(stageNb) {
 Seed.prototype.GetName = function GetName() {
   return this._name;
 };
+
+/**
+ * Item
+ */
+
+Seed.prototype.GetItemId = function GetItemId() {
+  return this._definition.Id;
+};
+
+Seed.prototype.GetItemName = function GetItemName() {
+  return this._definition.Name;
+};
