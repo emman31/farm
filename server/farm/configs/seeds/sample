@@ -10,5 +10,6 @@
   ],
   "NeededMinerals": [
     "iron", "manganese", "copper", "zinc"
-  ]
+  ],
+  "ConsumableId" : "consumable_sample"
 }

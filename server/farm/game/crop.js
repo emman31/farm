@@ -29,7 +29,7 @@ Crop.prototype.PlantSeed = function(seed) {
   this._currentStage = 0;
   this._growingTimeoutId = _time.SetTimeout(this.GrowPlant, seed.GetStageTimer(this._currentStage), this);
   this._deathTimeoutId = _time.SetTimeout(this.Die, this._plantedSeed.GetDeathTimer(), this);
-  this._socket.emit('response', "Plant", [this._plantedSeed.GetSymbol(this._currentStage), this._x, this._y]);
+  this._socket.emit('response', "Plant", [this._plantedSeed.GetSeedForClient(), this._x, this._y]);
 };
 
 Crop.prototype.Water = function() {
@@ -73,7 +73,17 @@ Crop.prototype.GrowPlant = function GrowPlant(crop) {
     crop._currentStage++;
     crop._socket.emit('response', "GrowPlant", [crop._plantedSeed.GetSymbol(crop._currentStage), crop._x, crop._y]);
     crop._growingTimeoutId = _time.SetTimeout(crop.GrowPlant, crop._plantedSeed.GetStageTimer(crop._currentStage), crop);
+    crop._fullyGrown = crop._plantedSeed.IsLastStage(crop._currentStage);
   }
+};
+
+Crop.prototype.IsFullyGrown = function IsFullyGrown() {
+  return this._plantedSeed !== null && this._plantedSeed.IsLastStage(this._currentStage);
+};
+
+Crop.prototype.Harvest = function Harvest() {
+  this._socket.emit('response', "Harvested", [this._x, this._y]);
+  return this._plantedSeed.GetConsumable();
 };
 
 /**

@@ -36,9 +36,21 @@ Game.prototype.Plant = function Plant(seed, x, y) {
  */
 Game.prototype.PlantAnywhere = function PlantAnywhere(seed) {
   if (this._inventory.ContainsItem(seed)) {
-    this._field.PlantAnywhere(seed);
-    this._inventory.RemoveItem(seed);
+    var planted = this._field.PlantAnywhere(seed);
+    if (planted) {
+      this._inventory.RemoveItem(seed);
+    }
   }
+};
+
+Game.prototype.WaterAll = function WaterAll() {
+  this._field.WaterAllCrops();
+};
+
+Game.prototype.HarvestAll = function HarvestAll() {
+  var items = this._field.HarvestAll();
+  console.log(items);
+  this._inventory.AddItems(items);
 };
 
 /**

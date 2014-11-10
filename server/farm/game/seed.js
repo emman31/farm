@@ -2,11 +2,13 @@ var _seeds = {};
 
 /**
  * Initialize all existing seeds in the game.
- * @param {array} seeds
+ * @param {type} seeds
+ * @param {type} consumables The consumables Factory
  */
-exports.SetSeeds = function SetSeeds(seeds) {
+exports.SetSeeds = function SetSeeds(seeds, consumables) {
   for (var i = 0; i < seeds.length; i++) {
-    var seed = new Seed();
+    var consumable = consumables.GetConsumable(seeds[i].ConsumableId);
+    var seed = new Seed(consumable);
     seed._definition = seeds[i];
     _seeds[seeds[i].Id] = seed;
   }
@@ -41,7 +43,8 @@ exports.GetSeeds = function GetSeeds() {
   return seeds;
 };
 
-function Seed() {
+function Seed(consumable) {
+  this._consumable = consumable;
 };
 
 /**
@@ -56,6 +59,22 @@ Seed.prototype.GetStageTimer = function GetStageTimer(stageNb) {
   else {
     return null;
   }
+};
+
+/**
+ * Get the total number of seconds until the seed is fully grown.
+ * @returns {Number}
+ */
+Seed.prototype.GetFullGrownTimer = function GetFullGrownTimer() {
+  var totalSeconds = 0;
+  for (var i = 0; i < this._definition.Stages.length; i++) {
+    var seconds = this.GetStageTimer(i);
+    if (i !== null) {
+      totalSeconds += seconds;
+    }
+  }
+
+  return totalSeconds;
 };
 
 Seed.prototype.GetSymbol = function GetSymbol(stageNb) {
@@ -74,8 +93,25 @@ Seed.prototype.StageExists = function StageExist(stageNb) {
   return stageNb < this._definition.Stages.length;
 };
 
+Seed.prototype.IsLastStage = function IsLastStage(stageNb) {
+  return stageNb >= (this._definition.Stages.length - 1);
+};
+
 Seed.prototype.GetName = function GetName() {
   return this._name;
+};
+
+Seed.prototype.GetConsumable = function GetConsumable() {
+  return this._consumable;
+};
+
+Seed.prototype.GetSeedForClient = function GetSeedForClient() {
+  return {
+    "Name": this._definition.Name,
+    "DeathTimer": this._definition.DeathTimer,
+    "Stages": this._definition.Stages,
+    "FullGrownTimer": this.GetFullGrownTimer()
+  };
 };
 
 /**

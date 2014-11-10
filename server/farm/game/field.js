@@ -44,6 +44,37 @@ Field.prototype.PlantAnywhere = function PlantAnywhere(seed) {
       }
     }
   }
+
+  return planted;
+};
+
+/**
+ * Harvest all fully grown crops and returns the resulting items.
+ * @returns {Array|HarvestAll.items}
+ */
+Field.prototype.HarvestAll = function HarvestAll() {
+  var items = [];
+  for (var y = 0; y < this.Height; y ++) {
+    for (var x = 0; x < this.Width; x ++) {
+      if (this._field[y][x].IsFullyGrown()) {
+        items.push(this._field[y][x].Harvest());
+        this._field[y][x] = _cropFactory.NewCrop(this._socket, x, y);
+      }
+    }
+  }
+
+  return items;
+};
+
+/**
+ * Water all crops.
+ */
+Field.prototype.WaterAllCrops = function WaterAllCrops() {
+  for (var y = 0; y < this.Height; y ++) {
+    for (var x = 0; x < this.Width; x ++) {
+      this.WaterCrop(x, y);
+    }
+  }
 };
 
 /**

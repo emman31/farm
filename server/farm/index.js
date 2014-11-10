@@ -1,21 +1,31 @@
 var fs = require('fs');
 var _gameFactory = require("./game/game.js");
 var _seedFactory = require("./game/seed.js");
+var _consumableFactory = require("./game/consumable.js");
 var _fertilizerFactory = require("./game/fertilizer.js");
 var games = [];
 
 /**
  * Initialise the server. This is executed only once when the server starts.
- * @returns {undefined}
+ * @param {type} socket
  */
 exports.InitServer = function InitServer(socket) {
+  // Loading all consumables from the consumables folder.
+  var files = fs.readdirSync("server/farm/configs/consumables/");
+  var consumables = new Array();
+  for(var i = 0; i < files.length; i++) {
+    consumables.push(JSON.parse(fs.readFileSync("server/farm/configs/consumables/" + files[i], 'utf8')));
+  }
+  _consumableFactory.SetConsumables(consumables);
+  console.log(consumables);
+
   // Loading all seeds from the seeds folder.
   var files = fs.readdirSync("server/farm/configs/seeds/");
   var seeds = new Array();
   for(var i = 0; i < files.length; i++) {
     seeds.push(JSON.parse(fs.readFileSync("server/farm/configs/seeds/" + files[i], 'utf8')));
   }
-  _seedFactory.SetSeeds(seeds);
+  _seedFactory.SetSeeds(seeds, _consumableFactory);
   console.log(seeds);
 
   // Loading all fertilizers from the fertilizers folder.
@@ -84,6 +94,14 @@ exports.PlantAnywhere = function PlantAnywhere(socket, seedId) {
   return {
     "field": this._game.GetField()
   };
+};
+
+exports.WaterAll = function WaterAll(socket) {
+  this._game.WaterAll();
+};
+
+exports.HarvestAll = function HarvestAll(socket) {
+  this._game.HarvestAll();
 };
 
 exports.WaterCrop = function WaterCrop(socket, x, y) {

@@ -6,19 +6,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
+        <script src="utils.js"></script>
         <script src="concept1.js"></script>
+        <script src="timer.js"></script>
         <link rel="stylesheet" type="text/css" href="concept1.css">
     </head>
     <body>
       <div id="actions">
         <div class="action_button" action="plant">Plant a seed</div>
+        <div class="action_button" action="water">Water all</div>
+        <div class="action_button" action="harvest">Harvest all</div>
       </div>
-    <fieldset class="inventory">
-      <legend>Inventory</legend>
-      <ul id="inventory_content">
 
-      </ul>
-    </fieldset>
+      <fieldset class="inventory">
+        <legend>Inventory</legend>
+        <ul id="inventory_content"></ul>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend>Field</legend>
+        <ul id="field_content"></ul>
+      </fieldset>
 
     </body>
 </html>

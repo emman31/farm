@@ -7,6 +7,12 @@ function Inventory(socket) {
   this._items = {};
 }
 
+Inventory.prototype.AddItems = function AddItem(items) {
+  for (var i = 0; i < items.length; i++) {
+    this.AddItem(items[i], 1);
+  }
+};
+
 Inventory.prototype.AddItem = function AddItem(item, number) {
   var itemId = item.GetItemId();
 
