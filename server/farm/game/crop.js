@@ -1,4 +1,5 @@
 var _time = require("./time.js");
+var _logger = require("../logger.js");
 
 exports.NewCrop = function(socket, x, y) {
   var newCrop = new Crop(x, y);
@@ -9,12 +10,19 @@ exports.NewCrop = function(socket, x, y) {
 function Crop(x, y) {
   this._x = x;
   this._y = y;
+  this._resetCrop();
+}
+
+Crop.prototype._resetCrop = function _resetCrop() {
+  _time.ClearTimeout(this._growingTimeoutId);
+  _time.ClearTimeout(this._waterTimeoutId);
+  _time.ClearTimeout(this._deathTimeoutId);
   this._watered = false;
   this._plantedSeed = null;
   this._growingTimeoutId = null;
   this._waterTimeoutId = null;
   this._deathTimeoutId = null;
-}
+};
 
 /**
  * Is it possible to plant a seed?
@@ -22,14 +30,16 @@ function Crop(x, y) {
  */
 Crop.prototype.CanPlant = function CanPlant() {
   return this._plantedSeed === null;
-}
+};
 
 Crop.prototype.PlantSeed = function(seed) {
   this._plantedSeed = seed;
   this._currentStage = 0;
   this._growingTimeoutId = _time.SetTimeout(this.GrowPlant, seed.GetStageTimer(this._currentStage), this);
   this._deathTimeoutId = _time.SetTimeout(this.Die, this._plantedSeed.GetDeathTimer(), this);
+
   this._socket.emit('response', "Plant", [this._plantedSeed.GetSeedForClient(), this._x, this._y]);
+  _logger.Log("Planted seed" , seed.GetItemId());
 };
 
 Crop.prototype.Water = function() {
@@ -81,9 +91,16 @@ Crop.prototype.IsFullyGrown = function IsFullyGrown() {
   return this._plantedSeed !== null && this._plantedSeed.IsLastStage(this._currentStage);
 };
 
+/**
+ * Harvest the crop.
+ * Resets all parameters and return the harvest result.
+ * @returns {Harvest@pro;_plantedSeed@call;GetConsumable}
+ */
 Crop.prototype.Harvest = function Harvest() {
+  var consumable = this._plantedSeed.GetConsumable();
+  this._resetCrop();
   this._socket.emit('response', "Harvested", [this._x, this._y]);
-  return this._plantedSeed.GetConsumable();
+  return consumable;
 };
 
 /**

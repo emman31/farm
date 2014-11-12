@@ -49,7 +49,6 @@ Game.prototype.WaterAll = function WaterAll() {
 
 Game.prototype.HarvestAll = function HarvestAll() {
   var items = this._field.HarvestAll();
-  console.log(items);
   this._inventory.AddItems(items);
 };
 
