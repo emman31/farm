@@ -1,7 +1,8 @@
 var http = require('http').createServer(onRequest),
   io = require('socket.io').listen(http, {log: false}),
   url = require('url'),
-  fs = require('fs');
+  fs = require('fs'),
+  logger = require('./logger.js'),
   farm = require('./farm');
 
 http.listen(8888);
@@ -49,10 +50,10 @@ io.sockets.on('connection', function(socket) {
   console.log("Client connected: " + id);
 
   socket.on('execute', function(command, params) {
-    var date = new Date();
-    var time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+//    var date = new Date();
+//    var time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
 
-    console.log(time + ": Executing command '" + command + "' for client '" + id + "'.");
+    logger.Log("Executing command '" + command + "' for client '" + id + "'.");
     var functionToExecute = farm[command];
 
     // Make sure the command is an existing function.

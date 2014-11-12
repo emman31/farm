@@ -45,7 +45,6 @@ Inventory.prototype.RemoveItem = function RemoveItem(item) {
   this._socket.emit('response', "AddedItemToInventory", [this._getInventoryForClient()]);
 };
 
-
 Inventory.prototype._getInventoryForClient = function _getInventoryForClient() {
   var items = [];
   for (var itemId in this._items) {
@@ -54,7 +53,5 @@ Inventory.prototype._getInventoryForClient = function _getInventoryForClient() {
       'Number': this._items[itemId].Number
     });
   }
-  console.log(items);
-
   return items;
 };

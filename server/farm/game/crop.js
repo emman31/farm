@@ -1,5 +1,5 @@
 var _time = require("./time.js");
-var _logger = require("../logger.js");
+var _logger = require("../../logger.js");
 
 exports.NewCrop = function(socket, x, y) {
   var newCrop = new Crop(x, y);
@@ -39,7 +39,7 @@ Crop.prototype.PlantSeed = function(seed) {
   this._deathTimeoutId = _time.SetTimeout(this.Die, this._plantedSeed.GetDeathTimer(), this);
 
   this._socket.emit('response', "Plant", [this._plantedSeed.GetSeedForClient(), this._x, this._y]);
-  _logger.Log("Planted seed" , seed.GetItemId());
+  _logger.Log("Planted seed " + seed.GetItemId());
 };
 
 Crop.prototype.Water = function() {
