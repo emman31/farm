@@ -27,7 +27,10 @@ Game.prototype.GetField = function GetField() {
  * @param {int} y the y coordinate of the crop in wich to plant.
  */
 Game.prototype.Plant = function Plant(seed, x, y) {
-  this._field.Plant(seed, x, y);
+  if (this._inventory.ContainsItem(seed)) {
+    this._field.Plant(seed, x, y);
+    this._inventory.RemoveItem(seed);
+  }
 };
 
 /**
@@ -62,7 +65,10 @@ Game.prototype.WaterCrop = function WaterCrop(x, y) {
 };
 
 Game.prototype.FertilizeCrop = function FertilizeCrop(fertilizer, x, y) {
-  this._field.FertilizeCrop(fertilizer, x, y);
+  if (this._inventory.ContainsItem(fertilizer)) {
+    this._field.FertilizeCrop(fertilizer, x, y);
+    this._inventory.RemoveItem(fertilizer);
+  }
 };
 
 Game.prototype.CreateInventory = function CreateInventory(socket) {

@@ -95,6 +95,12 @@ $(window).load(function document_ready() {
         selected_item = $(this);
       }
     });
+
+    // Keep the selection.
+    if (selected_item !== null) {
+      selected_item = $("[item_type='" + selected_item.attr('item_type') + "']");
+      selected_item.addClass('selected');
+    }
   }
 
   function CreateCrop(x, y, symbol) {

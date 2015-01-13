@@ -14,14 +14,18 @@ function Crop(x, y) {
 }
 
 Crop.prototype._resetCrop = function _resetCrop() {
-  _time.ClearTimeout(this._growingTimeoutId);
-  _time.ClearTimeout(this._waterTimeoutId);
-  _time.ClearTimeout(this._deathTimeoutId);
+  this._clearTimeouts();
   this._watered = false;
   this._plantedSeed = null;
   this._growingTimeoutId = null;
   this._waterTimeoutId = null;
   this._deathTimeoutId = null;
+};
+
+Crop.prototype._clearTimeouts = function _clearTimeouts() {
+  _time.ClearTimeout(this._growingTimeoutId);
+  _time.ClearTimeout(this._waterTimeoutId);
+  _time.ClearTimeout(this._deathTimeoutId);
 };
 
 /**
@@ -67,6 +71,7 @@ Crop.prototype.Dry = function Dry(crop) {
 
 Crop.prototype.Die = function Die(crop) {
   if (crop._watered === false) {
+    crop._clearTimeouts();
     crop._dead = true;
     crop._deathTimeoutId = null;
     crop._socket.emit('response', "Died", [crop._x, crop._y]);
