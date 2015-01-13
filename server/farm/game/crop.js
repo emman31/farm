@@ -1,5 +1,5 @@
 var _time = require("./time.js");
-var _logger = require("../../logger.js");
+var _logger = require('logger')
 
 exports.NewCrop = function(socket, x, y) {
   var newCrop = new Crop(x, y);

@@ -2,7 +2,7 @@ var http = require('http').createServer(onRequest),
   io = require('socket.io').listen(http, {log: false}),
   url = require('url'),
   fs = require('fs'),
-  logger = require('./logger.js'),
+  logger = require('logger'),
   farm = require('./farm');
 
 http.listen(8888);
@@ -47,18 +47,15 @@ function onRequest(request, response) {
 
 io.sockets.on('connection', function(socket) {
   var id = socket.id;
-  console.log("Client connected: " + id);
+  logger.Log("Client connected: " + id);
 
-  socket.on('execute', function(command, params) {
-//    var date = new Date();
-//    var time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
-
+  socket.on('execute', function execute(command, params) {
     logger.Log("Executing command '" + command + "' for client '" + id + "'.");
     var functionToExecute = farm[command];
 
     // Make sure the command is an existing function.
     if (typeof functionToExecute !== 'function') {
-      console.log(command + " is not a valid command.");
+      logger.Log(command + " is not a valid command.");
       return;
     }
 
@@ -68,7 +65,7 @@ io.sockets.on('connection', function(socket) {
     }
     else if (!(params instanceof Array)) {
       socket.emit('response', "ERROR", ["The 2nd parameter passed to Execute should be an array of parameters."]);
-      console.log("The 2nd parameter passed to Execute should be an array of parameters.");
+      logger.Log("The 2nd parameter passed to Execute should be an array of parameters.");
       return;
     }
 
@@ -83,7 +80,7 @@ io.sockets.on('connection', function(socket) {
     }
     catch (e) {
       socket.emit('response', "ERROR", ["A server error occured. What are you trying to do?!?"]);
-      console.log(e.stack);
+      logger.Log(e.stack);
     }
   });
 });
