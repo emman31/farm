@@ -1,3 +1,5 @@
+var _logger = require('logger');
+
 exports.NewTime = function(socket, time) {
   return new Time(socket, time);
 };
@@ -42,7 +44,7 @@ exports.SetTimeout = function SetTimeout(functionToExecute, seconds, args) {
         functionToExecute(args);
       }
       catch(e) {
-        console.log(e.stack);
+        _logger.Log(e.stack);
       }
     },
     seconds * 1000,
@@ -60,6 +62,6 @@ exports.ClearTimeout = function ClearTimeout(timeoutId) {
     clearTimeout(timeoutId);
   }
   catch(e) {
-    console.log(e.stack);
+    _logger.Log(e.stack);
   }
 };
