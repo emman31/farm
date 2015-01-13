@@ -45,24 +45,12 @@ exports.NewGame = function NewGame(socket) {
   // Loading time configs.
   var time = JSON.parse(fs.readFileSync("server/farm/configs/time", 'utf8'));
   this._game = _gameFactory.NewGame(socket, time, 20, 10);
-
-  return {
-    "field": this._game.GetField(),
-    "seeds": _seedFactory.GetSeeds()
-  };
-};
-
-/**
- * Create a new game.
- */
-exports.NewGameConcept1 = function NewGameConcept1(socket) {
-  // Loading time configs.
-  var time = JSON.parse(fs.readFileSync("server/farm/configs/time", 'utf8'));
-  this._game = _gameFactory.NewGame(socket, time, 1, 1);
   this._game.CreateInventory(socket);
 
   var seed = _seedFactory.GetSeed("seed_sample");
+  var fertilizer = _fertilizerFactory.GetFertilizer("fertilizer_1");
   this._game._inventory.AddItem(seed, 5);
+  this._game._inventory.AddItem(fertilizer, 5);
 
   return {
     "field": this._game.GetField(),
@@ -79,9 +67,6 @@ exports.NewGameConcept1 = function NewGameConcept1(socket) {
 exports.Plant = function Plant(socket, seedId, x, y) {
   var seed = _seedFactory.GetSeed(seedId);
   this._game.Plant(seed, x, y);
-  return {
-    "field": this._game.GetField()
-  };
 };
 
 /**

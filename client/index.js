@@ -1,6 +1,5 @@
 $(window).load(function document_ready() {
   socket = io.connect(window.location.host);
-
   socket.emit('execute', 'NewGame', ['patate']);
 
   socket.on('response', function(executedFunction, returnValue) {
@@ -11,6 +10,9 @@ $(window).load(function document_ready() {
       switch (executedFunction) {
         case "NewGame":
           RefreshField(returnValue.field);
+          break;
+        case "AddedItemToInventory":
+          RefreshInventory(returnValue[0]);
           break;
         case "Plant":
           PlantCrop(returnValue[0], returnValue[1], returnValue[2]);
@@ -38,6 +40,7 @@ $(window).load(function document_ready() {
 
   });
 
+  var selected_item = null;
   function RefreshField(field) {
     $("#field").empty();
     for (var y = 0; y < field.length; y ++) {
@@ -52,14 +55,44 @@ $(window).load(function document_ready() {
     $("#field").css("height", y * 24);
 
     $(".crop").click(function CropClicked() {
-      if (watering) {
-        socket.emit('execute', 'WaterCrop', [$(this).attr('x'), $(this).attr('y')]);
+      if (selected_item !== null) {
+        // On the click of a crop, we check if an item is selected and make the action depending of the item type.
+        switch (selected_item.attr('item_type')) {
+          case 'seed':
+            if ($(this).attr('planted') !== '1') {
+              socket.emit('execute', 'Plant', [selected_item.attr('item_id'), $(this).attr('x'), $(this).attr('y')]);
+            }
+            break;
+          case 'fertilizer':
+            socket.emit('execute', 'FertilizeCrop', [selected_item.attr('item_id'), $(this).attr('x'), $(this).attr('y')]);
+            break;
+        }
+
       }
-      else if(fertilizing) {
-        socket.emit('execute', 'FertilizeCrop', ['fert1', $(this).attr('x'), $(this).attr('y')]);
+
+//      if (watering) {
+//        socket.emit('execute', 'WaterCrop', [$(this).attr('x'), $(this).attr('y')]);
+//      }
+    });
+  }
+
+
+  function RefreshInventory(inventory) {
+    $("#inventory_content").empty();
+
+    for (var i = 0; i < inventory.length; i ++) {
+      $("#inventory_content").append("<li item_type='" + inventory[i].Type + "' item_id='" + inventory[i].Id + "'>" + inventory[i].Name + " (" + inventory[i].Number + ")</li>");
+    }
+
+    $("#inventory_content li").click(function item_clicked() {
+      if ($(this).hasClass('selected')) {
+        $("#inventory_content li").removeClass("selected");
+        selected_item = null;
       }
       else {
-        socket.emit('execute', 'Plant', ['sample', $(this).attr('x'), $(this).attr('y')]);
+        $("#inventory_content li").removeClass("selected");
+        $(this).addClass('selected');
+        selected_item = $(this);
       }
     });
   }
@@ -68,8 +101,8 @@ $(window).load(function document_ready() {
     return "<span class='crop' x=" + x + " y=" + y + ">" + symbol + "</span>";
   }
 
-  function PlantCrop(symbol, x, y) {
-    $("[x=" + x + "][y=" + y + "]").html(symbol);
+  function PlantCrop(seed, x, y) {
+    $("[x=" + x + "][y=" + y + "]").html(seed.Stages[0].Symbol);
   }
 
   function GrowPlant(symbol, x, y) {

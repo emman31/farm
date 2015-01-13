@@ -78,6 +78,7 @@ Crop.prototype.GetPlantName = function() {
 };
 
 Crop.prototype.GrowPlant = function GrowPlant(crop) {
+  _logger.Log("Growing");
   crop._growingTimeoutId = null;
   if (!crop._dead && crop._plantedSeed.StageExists(crop._currentStage + 1)) {
     crop._currentStage++;

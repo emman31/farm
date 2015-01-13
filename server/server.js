@@ -77,7 +77,9 @@ io.sockets.on('connection', function(socket) {
     try {
       params.unshift(socket);
       returnValue = functionToExecute.apply(farm, params);
-      socket.emit('response', command, returnValue);
+      if (returnValue !== null && typeof returnValue !== 'undefined') {
+        socket.emit('response', command, returnValue);
+      }
     }
     catch (e) {
       socket.emit('response', "ERROR", ["A server error occured. What are you trying to do?!?"]);

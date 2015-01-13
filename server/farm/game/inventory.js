@@ -14,6 +14,7 @@ Inventory.prototype.AddItems = function AddItem(items) {
 };
 
 Inventory.prototype.AddItem = function AddItem(item, number) {
+  console.log(item);
   var itemId = item.GetItemId();
 
   if (this._items.hasOwnProperty(itemId)) {
@@ -49,7 +50,9 @@ Inventory.prototype._getInventoryForClient = function _getInventoryForClient() {
   var items = [];
   for (var itemId in this._items) {
     items.push({
+      'Id': itemId,
       'Name': this._items[itemId].Item.GetItemName(),
+      'Type': this._items[itemId].Item.GetItemType(),
       'Number': this._items[itemId].Number
     });
   }

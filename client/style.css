@@ -1,3 +1,13 @@
+#fieldset_field,
+#fieldset_inventory {
+  float:left;
+}
+
+#fieldset_field,
+#fieldset_inventory{
+  display: inline-block;
+}
+
 #field {
   width: 480px;
 }
@@ -16,16 +26,30 @@
   text-align: center;
 }
 
-#fertilize:hover,
-#water:hover {
+#inventory_content {
+  list-style-type: none;
+  padding: 0px;
+}
+
+#inventory_content li:hover {
+  background-color: lightgreen;
   cursor:default;
 }
 
-#fertilize,
-#water {
+#inventory_content .selected {
   border: 1px solid black;
-  margin-top: 5px;
+}
+
+/*
+.action_button:hover {
+  cursor:default;
+}
+
+.action_button {
+  float: left;
+  border: 1px solid black;
+  margin-left: 5px;
   height: 20px;
   width: 100px;
   text-align: center;
-}
+}*/

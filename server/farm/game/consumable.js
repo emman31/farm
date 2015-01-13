@@ -37,3 +37,7 @@ Consumable.prototype.GetItemId = function GetItemId() {
 Consumable.prototype.GetItemName = function GetItemName() {
   return this._definition.Name;
 };
+
+Consumable.prototype.GetItemType = function GetItemType() {
+  return "consumable";
+};

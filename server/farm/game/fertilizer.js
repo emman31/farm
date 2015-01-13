@@ -27,3 +27,19 @@ exports.GetFertilizer = function GetSeed(id) {
 
 function Fertilizer() {
 };
+
+/**
+ * Item
+ */
+
+Fertilizer.prototype.GetItemId = function GetItemId() {
+  return this._definition.Id;
+};
+
+Fertilizer.prototype.GetItemName = function GetItemName() {
+  return this._definition.Name;
+};
+
+Fertilizer.prototype.GetItemType = function GetItemType() {
+  return "fertilizer";
+};

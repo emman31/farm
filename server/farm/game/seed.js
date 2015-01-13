@@ -125,3 +125,7 @@ Seed.prototype.GetItemId = function GetItemId() {
 Seed.prototype.GetItemName = function GetItemName() {
   return this._definition.Name;
 };
+
+Seed.prototype.GetItemType = function GetItemType() {
+  return "seed";
+};
