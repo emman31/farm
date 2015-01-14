@@ -11,7 +11,7 @@ function Time(socketIO, timeConfiguration) {
 /**
  * Proceed to the next day phase.
  * This function should be treated as static.
- * @param {type} time
+ * @param {Time} time
  * @returns {undefined}
  */
 Time.prototype.ChangeDayPhase = function ChangeDayPhase(time) {
@@ -50,8 +50,8 @@ Time.prototype.EmitTime = function EmitTime(socket) {
 /**
  * Custom function for setTimeout.
  * use this function for timeout to prevent the server from crashing.
- * @param {type} functionToExecute The function to execute when the time comes.
- * @param {type} seconds The umber of seconds before executinf the function.
+ * @param {Function} functionToExecute The function to execute when the time comes.
+ * @param {int} seconds The umber of seconds before executing the function.
  * @param {type} args all args to pass to the function.
  * @returns {undefined}
  */
