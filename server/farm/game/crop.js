@@ -83,13 +83,20 @@ Crop.prototype.GetPlantName = function() {
 };
 
 Crop.prototype.GrowPlant = function GrowPlant(crop) {
-  _logger.Log("Growing");
   crop._growingTimeoutId = null;
   if (!crop._dead && crop._plantedSeed.StageExists(crop._currentStage + 1)) {
     crop._currentStage++;
     crop._socket.emit('response', "GrowPlant", [crop._plantedSeed.GetSymbol(crop._currentStage), crop._x, crop._y]);
-    crop._growingTimeoutId = _time.SetTimeout(crop.GrowPlant, crop._plantedSeed.GetStageTimer(crop._currentStage), crop);
     crop._fullyGrown = crop._plantedSeed.IsLastStage(crop._currentStage);
+
+    var message = "Fully grown";
+    if (!crop._fullyGrown) {
+      var timer = crop._plantedSeed.GetStageTimer(crop._currentStage);
+      crop._growingTimeoutId = _time.SetTimeout(crop.GrowPlant, timer, crop);
+      message = "Next in " + timer;
+    }
+
+    _logger.Log("Growing: [" + crop._x + "," + crop._y + "] Stage:" + crop._currentStage + " " + message + ".");
   }
 };
 
