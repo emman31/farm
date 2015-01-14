@@ -32,7 +32,7 @@ function onRequest(request, response) {
     default:
   }
   fs.readFile(__dirname + '/..' + path,
-    function(err, data) {
+    function (err, data) {
       if (err) {
         response.writeHead(500, header);
         return response.end("Error loading file '" + path + "'");
@@ -45,7 +45,7 @@ function onRequest(request, response) {
   );
 }
 
-io.sockets.on('connection', function(socket) {
+io.sockets.on('connection', function (socket) {
   var id = socket.id;
   logger.Log("Client connected: " + id);
 
@@ -79,7 +79,7 @@ io.sockets.on('connection', function(socket) {
       }
     }
     catch (e) {
-      socket.emit('response', "ERROR", ["A server error occured. What are you trying to do?!?"]);
+      socket.emit('response', "ERROR", ["A server error occurred. What are you trying to do?!?"]);
       logger.Log(e.stack);
     }
   });

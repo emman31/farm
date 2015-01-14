@@ -1,9 +1,5 @@
 var _logger = require("logger");
 
-exports.NewInventory = function(socket) {
-  return new Inventory(socket);
-};
-
 function Inventory(socket) {
   this._socket = socket;
   this._items = {};
@@ -65,3 +61,5 @@ Inventory.prototype._getInventoryForClient = function _getInventoryForClient() {
   }
   return items;
 };
+
+module.exports = Inventory;

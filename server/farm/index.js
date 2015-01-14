@@ -1,9 +1,9 @@
 var _logger = require("logger");
 var _fs = require('fs');
 
-var _gameFactory = require("./game/game.js");
-var _itemFactory = require("./game/item/itemFactory.js");
-var _time = require("./game/time.js");
+var Game = require("./game/game.js");
+var ItemFactory = require("./game/item/itemFactory.js");
+var Time = require("./game/time.js");
 
 var games = [];
 
@@ -12,11 +12,11 @@ var games = [];
  * @param {type} socket
  */
 exports.InitServer = function(socketIO) {
-  _itemFactory.LoadAllItems();
+  ItemFactory.LoadAllItems();
 
   // Start server time.
-  var time = JSON.parse(_fs.readFileSync("server/farm/configs/time", 'utf8'));
-  this._time = _time.NewTime(socketIO, time);
+  var timeConfigs = JSON.parse(_fs.readFileSync("server/farm/configs/time", 'utf8'));
+  this._time = new Time(socketIO, timeConfigs);
 };
 
 /**
@@ -25,16 +25,15 @@ exports.InitServer = function(socketIO) {
  * @returns {type}
  */
 exports.NewGame = function NewGame(socket) {
-  this._game = _gameFactory.NewGame(socket, 20, 10);
-  this._game.CreateInventory(socket);
+  this._game = new Game(socket, 20, 10);
 
-  var seed = _itemFactory.GetSeed("seed_sample");
+  var seed = ItemFactory.GetSeed("seed_sample");
   this._game._inventory.AddItem(seed, 5);
 
-  var fertilizer = _itemFactory.GetFertilizer("fertilizer_1");
+  var fertilizer = ItemFactory.GetFertilizer("fertilizer_1");
   this._game._inventory.AddItem(fertilizer, 5);
 
-  var watering_can = _itemFactory.GetTool("watering_can");
+  var watering_can = ItemFactory.GetTool("watering_can");
   this._game._inventory.AddItem(watering_can, 1);
 
   this._time.EmitTime(socket);

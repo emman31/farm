@@ -1,10 +1,6 @@
 var _cropFactory = require("./crop.js");
 var _seedFactory = require("./item/seed.js");
 
-exports.NewField = function(socket, width, height) {
-  return new Field(socket, width, height);
-};
-
 function Field(socket, width, height) {
   this._socket = socket;
   this.Width = width;
@@ -106,3 +102,5 @@ Field.prototype.GetField = function GetField() {
 
   return field;
 };
+
+module.exports = Field;

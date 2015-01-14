@@ -1,9 +1,5 @@
 var _logger = require('logger');
 
-exports.NewTime = function(socket, time) {
-  return new Time(socket, time);
-};
-
 function Time(socketIO, timeConfiguration) {
   this._socketIO = socketIO;
   this._timeConfiguration = timeConfiguration;
@@ -33,7 +29,7 @@ Time.prototype.ChangeDayPhase = function ChangeDayPhase(time) {
       time._timeConfiguration.DayPhases[time._currentPhase].Duration
     ]
   );
-  exports.SetTimeout(time.ChangeDayPhase, time._timeConfiguration.DayPhases[time._currentPhase].Duration, time);
+  Time.SetTimeout(time.ChangeDayPhase, time._timeConfiguration.DayPhases[time._currentPhase].Duration, time);
 };
 
 /**
@@ -59,7 +55,7 @@ Time.prototype.EmitTime = function EmitTime(socket) {
  * @param {type} args all args to pass to the function.
  * @returns {undefined}
  */
-exports.SetTimeout = function SetTimeout(functionToExecute, seconds, args) {
+Time.SetTimeout = function SetTimeout(functionToExecute, seconds, args) {
   return setTimeout(
     function setTimeout(functionToExecute, args) {
       try{
@@ -79,7 +75,7 @@ exports.SetTimeout = function SetTimeout(functionToExecute, seconds, args) {
  * @param {type} timeoutId The timeout Id as returned from SetTimeout.
  * @returns {undefined}
  */
-exports.ClearTimeout = function ClearTimeout(timeoutId) {
+Time.ClearTimeout = function ClearTimeout(timeoutId) {
   try{
     clearTimeout(timeoutId);
   }
@@ -87,3 +83,5 @@ exports.ClearTimeout = function ClearTimeout(timeoutId) {
     _logger.Log(e.stack);
   }
 };
+
+module.exports = Time;

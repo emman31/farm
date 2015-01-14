@@ -1,16 +1,13 @@
 var _logger = require("logger");
 
-var _field = require("./field.js");
-var _inventory = require("./inventory.js");
+var Field = require("./field.js");
+var Inventory = require("./inventory.js");
 var _itemFactory = require("./item/itemFactory.js");
-
-exports.NewGame = function(socket, width, height) {
-  return new Game(socket, width, height);
-};
 
 function Game(socket, width, height) {
   this._socket = socket;
-  this._field = _field.NewField(this._socket, width, height);
+  this._field = new Field(this._socket, width, height);
+  this._inventory = new Inventory(socket);
 }
 
 /**
@@ -77,6 +74,4 @@ Game.prototype.HarvestAll = function HarvestAll() {
   this._inventory.AddItems(items);
 };
 
-Game.prototype.CreateInventory = function CreateInventory(socket) {
-  this._inventory = _inventory.NewInventory(socket);
-};
+module.exports = Game;
