@@ -43,7 +43,7 @@ Crop.prototype.PlantSeed = function(seed) {
   this._deathTimeoutId = _time.SetTimeout(this.Die, this._plantedSeed.GetDeathTimer(), this);
 
   this._socket.emit('response', "Plant", [this._plantedSeed.GetSeedForClient(), this._x, this._y]);
-  _logger.Log("Planted seed " + seed.GetItemId());
+  _logger.Log("Planted seed " + seed.Id);
 };
 
 Crop.prototype.Water = function() {

@@ -85,6 +85,6 @@ io.sockets.on('connection', function(socket) {
   });
 });
 
-farm.InitServer();
+farm.InitServer(io);
 
 console.log("Server has started.");

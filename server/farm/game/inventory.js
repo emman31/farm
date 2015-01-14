@@ -1,3 +1,5 @@
+var _logger = require("logger");
+
 exports.NewInventory = function(socket) {
   return new Inventory(socket);
 };
@@ -7,6 +9,16 @@ function Inventory(socket) {
   this._items = {};
 }
 
+Inventory.prototype.GetItem = function GetItem(itemId) {
+  if (this._items.hasOwnProperty(itemId) && this._items[itemId].Number > 0) {
+    return this._items[itemId].Item;
+  }
+  else {
+    _logger.Log("Inventory does not contain item '" + itemId + "'.");
+    return null;
+  }
+}
+
 Inventory.prototype.AddItems = function AddItem(items) {
   for (var i = 0; i < items.length; i++) {
     this.AddItem(items[i], 1);
@@ -14,14 +26,11 @@ Inventory.prototype.AddItems = function AddItem(items) {
 };
 
 Inventory.prototype.AddItem = function AddItem(item, number) {
-  console.log(item);
-  var itemId = item.GetItemId();
-
-  if (this._items.hasOwnProperty(itemId)) {
-    this._items[itemId].Number += number;
+  if (this._items.hasOwnProperty(item.Id)) {
+    this._items[item.Id].Number += number;
   }
   else {
-    this._items[itemId] = {
+    this._items[item.Id] = {
       'Item': item,
       'Number': number
     };
@@ -30,8 +39,7 @@ Inventory.prototype.AddItem = function AddItem(item, number) {
   this._socket.emit('response', "AddedItemToInventory", [this._getInventoryForClient()]);
 };
 
-Inventory.prototype.ContainsItem = function ContainsItem(item) {
-  var itemId = item.GetItemId();
+Inventory.prototype.ContainsItem = function ContainsItem(itemId) {
   if (this._items.hasOwnProperty(itemId) && this._items[itemId].Number > 0) {
     return true;
   }
@@ -39,9 +47,8 @@ Inventory.prototype.ContainsItem = function ContainsItem(item) {
 };
 
 Inventory.prototype.RemoveItem = function RemoveItem(item) {
-  var itemId = item.GetItemId();
-  if (this._items.hasOwnProperty(itemId) && this._items[itemId].Number > 0) {
-    this._items[itemId].Number --;
+  if (this._items.hasOwnProperty(item.Id) && this._items[item.Id].Number > 0) {
+    this._items[item.Id].Number --;
   }
   this._socket.emit('response', "AddedItemToInventory", [this._getInventoryForClient()]);
 };
@@ -51,8 +58,8 @@ Inventory.prototype._getInventoryForClient = function _getInventoryForClient() {
   for (var itemId in this._items) {
     items.push({
       'Id': itemId,
-      'Name': this._items[itemId].Item.GetItemName(),
-      'Type': this._items[itemId].Item.GetItemType(),
+      'Name': this._items[itemId].Item.Name,
+      'Type': this._items[itemId].Item.Type,
       'Number': this._items[itemId].Number
     });
   }

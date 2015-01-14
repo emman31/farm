@@ -1,6 +1,6 @@
 $(window).load(function document_ready() {
   socket = io.connect(window.location.host);
-  socket.emit('execute', 'NewGame', ['patate']);
+  socket.emit('execute', 'NewGame');
 
   socket.on('response', function(executedFunction, returnValue) {
     if (executedFunction === "ERROR") {
@@ -20,8 +20,8 @@ $(window).load(function document_ready() {
         case "GrowPlant":
           GrowPlant(returnValue[0], returnValue[1], returnValue[2]);
           break;
-        case "ChangeDayPhase":
-          ChangeDayPhase(returnValue[0], returnValue[1], returnValue[2]);
+        case "RefreshTime":
+          RefreshTime(returnValue[0], returnValue[1], returnValue[2]);
           break;
         case "Watered":
           WaterCrop(returnValue[0], returnValue[1], returnValue[2]);
@@ -56,32 +56,18 @@ $(window).load(function document_ready() {
 
     $(".crop").click(function CropClicked() {
       if (selected_item !== null) {
-        // On the click of a crop, we check if an item is selected and make the action depending of the item type.
-        switch (selected_item.attr('item_type')) {
-          case 'seed':
-            if ($(this).attr('planted') !== '1') {
-              socket.emit('execute', 'Plant', [selected_item.attr('item_id'), $(this).attr('x'), $(this).attr('y')]);
-            }
-            break;
-          case 'fertilizer':
-            socket.emit('execute', 'FertilizeCrop', [selected_item.attr('item_id'), $(this).attr('x'), $(this).attr('y')]);
-            break;
-        }
-
+        socket.emit('execute', 'UseOnCrop', [selected_item.attr('item_id'), $(this).attr('x'), $(this).attr('y')]);
       }
-
-//      if (watering) {
-//        socket.emit('execute', 'WaterCrop', [$(this).attr('x'), $(this).attr('y')]);
-//      }
     });
   }
 
-
+  var Inventory = {};
   function RefreshInventory(inventory) {
     $("#inventory_content").empty();
 
     for (var i = 0; i < inventory.length; i ++) {
-      $("#inventory_content").append("<li item_type='" + inventory[i].Type + "' item_id='" + inventory[i].Id + "'>" + inventory[i].Name + " (" + inventory[i].Number + ")</li>");
+      Inventory[inventory[i].Id] = inventory[i];
+      $("#inventory_content").append("<li item_id='" + inventory[i].Id + "'>" + inventory[i].Name + " (" + inventory[i].Number + ")</li>");
     }
 
     $("#inventory_content li").click(function item_clicked() {
@@ -98,7 +84,7 @@ $(window).load(function document_ready() {
 
     // Keep the selection.
     if (selected_item !== null) {
-      selected_item = $("[item_type='" + selected_item.attr('item_type') + "']");
+      selected_item = $("[item_id='" + selected_item.attr('item_id') + "']");
       selected_item.addClass('selected');
     }
   }
@@ -132,38 +118,7 @@ $(window).load(function document_ready() {
     $("[x=" + x + "][y=" + y + "]").html("x");
   }
 
-  function ChangeDayPhase(day, name, duration) {
+  function RefreshTime(day, name, duration) {
     $("#time").html("Day " + day + " " + name);
-  }
-
-  var watering = false;
-  $("#water").click(function OnWaterClick() {
-    SetWatering(!watering);
-  });
-
-  var fertilizing = false;
-  $("#fertilize").click(function OnFertilizeClick() {
-    SetFertilizing(!fertilizing);
-  });
-
-  function SetWatering(isWatering) {
-    watering = isWatering;
-    if (watering) {
-      $("#water").css("background-color", "cyan");
-      SetFertilizing(false);
-    }
-    else {
-      $("#water").css("background-color", "white");
-    }
-  }
-  function SetFertilizing(isFertilizing) {
-    fertilizing = isFertilizing;
-    if (fertilizing) {
-      $("#fertilize").css("background-color", "brown");
-      SetWatering(false);
-    }
-    else {
-      $("#fertilize").css("background-color", "white");
-    }
   }
 });

@@ -4,9 +4,9 @@ exports.NewTime = function(socket, time) {
   return new Time(socket, time);
 };
 
-function Time(socket, time) {
-  this._socket = socket;
-  this._time = time;
+function Time(socketIO, timeConfiguration) {
+  this._socketIO = socketIO;
+  this._timeConfiguration = timeConfiguration;
   this._day = 1;
   this._currentPhase = -1;
   this.ChangeDayPhase(this);
@@ -20,14 +20,36 @@ function Time(socket, time) {
  */
 Time.prototype.ChangeDayPhase = function ChangeDayPhase(time) {
   time._currentPhase ++;
-  if (time._currentPhase >= time._time.DayPhases.length) {
+  if (time._currentPhase >= time._timeConfiguration.DayPhases.length) {
     time._currentPhase = 0;
     time._day ++;
   }
 
-  time._socket.emit('response', "ChangeDayPhase", [time._day, time._time.DayPhases[time._currentPhase].Name, time._time.DayPhases[time._currentPhase].Duration]);
-  exports.SetTimeout(time.ChangeDayPhase, time._time.DayPhases[time._currentPhase].Duration, time);
+  // emit to all clients.
+  time._socketIO.sockets.emit('response', "RefreshTime",
+    [
+      time._day,
+      time._timeConfiguration.DayPhases[time._currentPhase].Name,
+      time._timeConfiguration.DayPhases[time._currentPhase].Duration
+    ]
+  );
+  exports.SetTimeout(time.ChangeDayPhase, time._timeConfiguration.DayPhases[time._currentPhase].Duration, time);
 };
+
+/**
+ * Emit the current time to a client.
+ * @param {type} socket
+ * @returns {undefined}
+ */
+Time.prototype.EmitTime = function EmitTime(socket) {
+  socket.emit('response', "RefreshTime",
+    [
+      this._day,
+      this._timeConfiguration.DayPhases[this._currentPhase].Name,
+      this._timeConfiguration.DayPhases[this._currentPhase].Duration
+    ]
+  );
+}
 
 /**
  * Custom function for setTimeout.

@@ -1,5 +1,5 @@
 var _cropFactory = require("./crop.js");
-var _seedFactory = require("./seed.js");
+var _seedFactory = require("./item/seed.js");
 
 exports.NewField = function(socket, width, height) {
   return new Field(socket, width, height);

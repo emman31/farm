@@ -1,84 +1,59 @@
-var fs = require('fs');
+var _logger = require("logger");
+var _fs = require('fs');
+
 var _gameFactory = require("./game/game.js");
-var _seedFactory = require("./game/seed.js");
-var _consumableFactory = require("./game/consumable.js");
-var _fertilizerFactory = require("./game/fertilizer.js");
+var _itemFactory = require("./game/item/itemFactory.js");
+var _time = require("./game/time.js");
+
 var games = [];
 
 /**
  * Initialise the server. This is executed only once when the server starts.
  * @param {type} socket
  */
-exports.InitServer = function InitServer(socket) {
-  // Loading all consumables from the consumables folder.
-  var files = fs.readdirSync("server/farm/configs/consumables/");
-  var consumables = new Array();
-  for(var i = 0; i < files.length; i++) {
-    consumables.push(JSON.parse(fs.readFileSync("server/farm/configs/consumables/" + files[i], 'utf8')));
-  }
-  _consumableFactory.SetConsumables(consumables);
-  console.log(consumables);
+exports.InitServer = function(socketIO) {
+  _itemFactory.LoadAllItems();
 
-  // Loading all seeds from the seeds folder.
-  var files = fs.readdirSync("server/farm/configs/seeds/");
-  var seeds = new Array();
-  for(var i = 0; i < files.length; i++) {
-    seeds.push(JSON.parse(fs.readFileSync("server/farm/configs/seeds/" + files[i], 'utf8')));
-  }
-  _seedFactory.SetSeeds(seeds, _consumableFactory);
-  console.log(seeds);
-
-  // Loading all fertilizers from the fertilizers folder.
-  var files = fs.readdirSync("server/farm/configs/fertilizers/");
-  var fertilizers = new Array();
-  for(var i = 0; i < files.length; i++) {
-    fertilizers.push(JSON.parse(fs.readFileSync("server/farm/configs/fertilizers/" + files[i], 'utf8')));
-  }
-  _fertilizerFactory.SetFertilizers(fertilizers);
-  console.log(fertilizers);
+  // Start server time.
+  var time = JSON.parse(_fs.readFileSync("server/farm/configs/time", 'utf8'));
+  this._time = _time.NewTime(socketIO, time);
 };
 
 /**
  * Create a new game.
+ * @param {type} socket
+ * @returns {type}
  */
 exports.NewGame = function NewGame(socket) {
-  // Loading time configs.
-  var time = JSON.parse(fs.readFileSync("server/farm/configs/time", 'utf8'));
-  this._game = _gameFactory.NewGame(socket, time, 20, 10);
+  this._game = _gameFactory.NewGame(socket, 20, 10);
   this._game.CreateInventory(socket);
 
-  var seed = _seedFactory.GetSeed("seed_sample");
-  var fertilizer = _fertilizerFactory.GetFertilizer("fertilizer_1");
+  var seed = _itemFactory.GetSeed("seed_sample");
   this._game._inventory.AddItem(seed, 5);
+
+  var fertilizer = _itemFactory.GetFertilizer("fertilizer_1");
   this._game._inventory.AddItem(fertilizer, 5);
 
-  return {
-    "field": this._game.GetField(),
-    "seeds": _seedFactory.GetSeeds()
-  };
-};
+  var watering_can = _itemFactory.GetTool("watering_can");
+  this._game._inventory.AddItem(watering_can, 1);
 
-/**
- * Plant a seed in a crop.
- * @param {string} seedId The id of the seed to plant.
- * @param {int} x the x coordinate of the crop in wich to plant.
- * @param {int} y the y coordinate of the crop in wich to plant.
- */
-exports.Plant = function Plant(socket, seedId, x, y) {
-  var seed = _seedFactory.GetSeed(seedId);
-  this._game.Plant(seed, x, y);
-};
+  this._time.EmitTime(socket);
 
-/**
- * Plant a seed in a free crop.
- * @param {string} seedId The id of the seed to plant.
- */
-exports.PlantAnywhere = function PlantAnywhere(socket, seedId) {
-  var seed = _seedFactory.GetSeed(seedId);
-  this._game.PlantAnywhere(seed);
   return {
     "field": this._game.GetField()
   };
+};
+
+/**
+ * Use the given item on the crop at given coordinates.
+ * @param {type} socket
+ * @param {type} item_id The item id.
+ * @param {type} x
+ * @param {type} y
+ * @returns {undefined}
+ */
+exports.UseOnCrop = function UseOnCrop(socket, item_id, x, y) {
+  this._game.UseOnCrop(item_id, x, y);
 };
 
 exports.WaterAll = function WaterAll(socket) {
@@ -87,13 +62,4 @@ exports.WaterAll = function WaterAll(socket) {
 
 exports.HarvestAll = function HarvestAll(socket) {
   this._game.HarvestAll();
-};
-
-exports.WaterCrop = function WaterCrop(socket, x, y) {
-  this._game.WaterCrop(x, y);
-};
-
-exports.FertilizeCrop = function FertilizeCrop(socket, fertilizerId, x, y) {
-  var fertilizer = _fertilizerFactory.GetFertilizer(fertilizerId);
-  this._game.FertilizeCrop(fertilizer, x, y);
 };

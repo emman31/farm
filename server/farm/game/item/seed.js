@@ -1,50 +1,9 @@
-var _seeds = {};
-
-/**
- * Initialize all existing seeds in the game.
- * @param {type} seeds
- * @param {type} consumables The consumables Factory
- */
-exports.SetSeeds = function SetSeeds(seeds, consumables) {
-  for (var i = 0; i < seeds.length; i++) {
-    var consumable = consumables.GetConsumable(seeds[i].ConsumableId);
-    var seed = new Seed(consumable);
-    seed._definition = seeds[i];
-    _seeds[seeds[i].Id] = seed;
-  }
+exports.NewSeed = function NewSeed() {
+  return new Seed();
 };
 
-/**
- * Obtain a seed by it's id.
- * @param {type} seedId
- * @returns {seed} The seed that was found, or null if none exist with the given id.
- */
-exports.GetSeed = function GetSeed(seedId) {
-  if (_seeds.hasOwnProperty(seedId)) {
-    return _seeds[seedId];
-  }
-
-  return null;
-};
-
-/**
- * Get all the seeds to show on screen.
- * This is to send to client. Don't add unnecessary info.
- */
-exports.GetSeeds = function GetSeeds() {
-  var seeds = new Array();
-  for (var i = 0; i < _seeds.length; i++) {
-    seeds.push({
-      'symbol': _seeds[i]._symbol,
-      'name': _seeds[i]._name
-    });
-  }
-
-  return seeds;
-};
-
-function Seed(consumable) {
-  this._consumable = consumable;
+function Seed() {
+  this._consumable = null;
 };
 
 /**
@@ -112,20 +71,4 @@ Seed.prototype.GetSeedForClient = function GetSeedForClient() {
     "Stages": this._definition.Stages,
     "FullGrownTimer": this.GetFullGrownTimer()
   };
-};
-
-/**
- * Item
- */
-
-Seed.prototype.GetItemId = function GetItemId() {
-  return this._definition.Id;
-};
-
-Seed.prototype.GetItemName = function GetItemName() {
-  return this._definition.Name;
-};
-
-Seed.prototype.GetItemType = function GetItemType() {
-  return "seed";
 };

@@ -1,0 +1,5 @@
+{
+  "Id": "watering_can",
+  "Name": "Watering Can",
+  "Action": "water"
+}
