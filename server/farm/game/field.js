@@ -44,16 +44,33 @@ Field.prototype.PlantAnywhere = function PlantAnywhere(seed) {
 };
 
 /**
+ * Harvest a fully grown crop.
+ * @param {int} x
+ * @param {int} y
+ * @return {Item|boolean} The harvested item or false if the crop can't be harvested.
+ */
+Field.prototype.HarvestCrop = function HarvestCrop(x, y) {
+  if (this._field[y][x].IsFullyGrown()) {
+    var item = this._field[y][x].Harvest();
+    this._field[y][x] = new Crop(this._socket, x, y);
+    return item;
+  }
+  else {
+    return false;
+  }
+}
+
+/**
  * Harvest all fully grown crops and returns the resulting items.
- * @returns {Array|HarvestAll.items}
+ * @returns {Item[]}
  */
 Field.prototype.HarvestAll = function HarvestAll() {
   var items = [];
   for (var y = 0; y < this.Height; y ++) {
     for (var x = 0; x < this.Width; x ++) {
-      if (this._field[y][x].IsFullyGrown()) {
-        items.push(this._field[y][x].Harvest());
-        this._field[y][x] = new Crop(this._socket, x, y);
+      var item = this.HarvestCrop(x, y);
+      if (item !== false) {
+        items.push(item);
       }
     }
   }

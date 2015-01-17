@@ -29,6 +29,9 @@ $(window).load(function document_ready() {
         case "Fertilized":
           FertilizeCrop(returnValue[0], returnValue[1]);
           break;
+        case "RefreshCrop":
+          RefreshCrop(returnValue[0], returnValue[1], returnValue[2]);
+          break;
         case "Dried":
           DryCrop(returnValue[0], returnValue[1], returnValue[2]);
           break;
@@ -58,7 +61,15 @@ $(window).load(function document_ready() {
       if (selected_item !== null) {
         socket.emit('execute', 'UseOnCrop', [selected_item.attr('item_id'), $(this).attr('x'), $(this).attr('y')]);
       }
+      else {
+        socket.emit('execute', 'HarvestCrop', [$(this).attr('x'), $(this).attr('y')]);
+      }
+
     });
+  }
+
+  function RefreshCrop(x, y, symbol) {
+    $("[x=" + x + "][y=" + y + "]").replaceWith(CreateCrop(x, y, symbol));
   }
 
   var Inventory = {};

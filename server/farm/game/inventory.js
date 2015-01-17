@@ -21,7 +21,16 @@ Inventory.prototype.AddItems = function AddItem(items) {
   }
 };
 
+/**
+ * Add item to the inventory.
+ * @param {Item} item The item to add to the inventory
+ * @param {int} [number=1] The number of items to add.
+ */
 Inventory.prototype.AddItem = function AddItem(item, number) {
+  if (!number) {
+    number = 1;
+  }
+
   if (this._items.hasOwnProperty(item.GetId())) {
     this._items[item.GetId()].Number += number;
   }

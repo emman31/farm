@@ -59,6 +59,10 @@ exports.WaterAll = function WaterAll(socket) {
   this._game.WaterAll();
 };
 
+exports.HarvestCrop = function HarvestCrop(socket, x, y) {
+  this._game.HarvestCrop(x, y);
+};
+
 exports.HarvestAll = function HarvestAll(socket) {
   this._game.HarvestAll();
 };

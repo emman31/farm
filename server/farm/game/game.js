@@ -68,6 +68,13 @@ Game.prototype.PlantAnywhere = function PlantAnywhere(seed) {
   }
 };
 
+Game.prototype.HarvestCrop = function HarvestCrop(x, y) {
+  var item = this._field.HarvestCrop(x, y);
+  if (item) {
+    this._inventory.AddItem(item);
+  }
+};
+
 Game.prototype.HarvestAll = function HarvestAll() {
   var items = this._field.HarvestAll();
   this._inventory.AddItems(items);

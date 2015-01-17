@@ -114,12 +114,12 @@ Crop.prototype.IsFullyGrown = function IsFullyGrown() {
 /**
  * Harvest the crop.
  * Resets all parameters and return the harvest result.
- * @returns {Consumable}
+ * @returns {Item}
  */
 Crop.prototype.Harvest = function Harvest() {
   var consumable = this._plantedSeed.GetConsumable();
   this._resetCrop();
-  this._socket.emit('response', "Harvested", [this._x, this._y]);
+  this._socket.emit('response', "RefreshCrop", [this._x, this._y, this.GetSymbol()]);
   return consumable;
 };
 
