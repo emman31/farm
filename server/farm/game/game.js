@@ -33,7 +33,7 @@ Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
         this._field.Plant(item, x, y);
         break;
       case _itemFactory.TYPE_FERTILIZER:
-        this._field.FertilizeCrop(item, x, y);
+        mustRemoveItem = this._field.FertilizeCrop(item, x, y);
         break;
       case _itemFactory.TYPE_TOOL:
         if (item.GetAction() === 'water') {

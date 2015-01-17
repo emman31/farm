@@ -82,7 +82,7 @@ Field.prototype.WaterCrop = function WaterCrop(x, y) {
 };
 
 Field.prototype.FertilizeCrop = function FertilizeCrop(fertilizer, x, y) {
-  this._field[y][x].Fertilize(fertilizer);
+  return this._field[y][x].Fertilize(fertilizer);
 };
 
 /**

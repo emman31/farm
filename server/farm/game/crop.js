@@ -12,6 +12,7 @@ Crop.prototype._resetCrop = function _resetCrop() {
   this._clearTimeouts();
   this._watered = false;
   this._plantedSeed = null;
+  this._fertilizer = null;
   this._growingTimeoutId = null;
   this._waterTimeoutId = null;
   this._deathTimeoutId = null;
@@ -55,10 +56,17 @@ Crop.prototype.Water = function() {
 /**
  * Fertilize a crop.
  * @param {Fertilizer} fertilizer
+ * @return {bool} Fertilization succeeded?
  */
 Crop.prototype.Fertilize = function Fertilize(fertilizer) {
-  this._fertilizer = fertilizer;
-  this._socket.emit('response', "Fertilized", [this._x, this._y]);
+  if (this._fertilizer === null) {
+    this._fertilizer = fertilizer;
+    this._socket.emit('response', "Fertilized", [this._x, this._y]);
+    return true;
+  }
+  else {
+    return false;
+  }
 };
 
 Crop.prototype.Dry = function Dry(crop) {
