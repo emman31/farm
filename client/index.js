@@ -56,7 +56,15 @@ $(window).load(function document_ready() {
 
     $("#field").css("width", x * 24);
     $("#field").css("height", y * 24);
+    BindCropClick();
+  }
 
+  function RefreshCrop(x, y, symbol) {
+    $("[x=" + x + "][y=" + y + "]").replaceWith(CreateCrop(x, y, symbol));
+    BindCropClick();
+  }
+
+  function BindCropClick() {
     $(".crop").click(function CropClicked() {
       if (selected_item !== null) {
         socket.emit('execute', 'UseOnCrop', [selected_item.attr('item_id'), $(this).attr('x'), $(this).attr('y')]);
@@ -66,10 +74,6 @@ $(window).load(function document_ready() {
       }
 
     });
-  }
-
-  function RefreshCrop(x, y, symbol) {
-    $("[x=" + x + "][y=" + y + "]").replaceWith(CreateCrop(x, y, symbol));
   }
 
   var Inventory = {};
