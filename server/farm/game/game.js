@@ -30,7 +30,7 @@ Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
     var mustRemoveItem = true;
     switch(item.GetType()) {
       case _itemFactory.TYPE_SEED:
-        this._field.Plant(item, x, y);
+        mustRemoveItem = this._field.Plant(item, x, y);
         break;
       case _itemFactory.TYPE_FERTILIZER:
         mustRemoveItem = this._field.FertilizeCrop(item, x, y);

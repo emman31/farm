@@ -16,25 +16,30 @@ function Field(socket, width, height) {
 }
 
 /**
- * Plant a seed in a crop.
- * @param {seed} seed The seed to plant
- * @param {int} x the x coordinate of the crop in wich to plant.
- * @param {int} y the y coordinate of the crop in wich to plant.
+ * Plant a seed in a crop, if possible.
+ * @param {Seed} seed The seed to plant
+ * @param {int} x The x coordinate of the crop in which to plant.
+ * @param {int} y The y coordinate of the crop in which to plant.
  */
 Field.prototype.Plant = function Plant(seed, x, y) {
-  this._field[y][x].PlantSeed(seed);
+  if (this._field[y][x].CanPlant()) {
+    this._field[y][x].PlantSeed(seed);
+    return true;
+  }
+  else {
+    return false;
+  }
 };
 
 /**
  * Plant a seed in a free crop.
- * @param {seed} seed The seed to plant
+ * @param {Seed} seed The seed to plant
  */
 Field.prototype.PlantAnywhere = function PlantAnywhere(seed) {
   var planted = false;
   for (var y = 0; y < this.Height && !planted; y ++) {
     for (var x = 0; x < this.Width && !planted; x ++) {
-      if (this._field[y][x].CanPlant()) {
-        this._field[y][x].PlantSeed(seed);
+      if (this.Plant(seed, x, y)) {
         planted = true;
       }
     }
