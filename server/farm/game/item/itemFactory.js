@@ -1,3 +1,4 @@
+var Item = require('./item.js');
 var _fs = require('fs');
 var _logger = require("logger");
 
@@ -5,7 +6,7 @@ var classes = {
   'Seed': require("./seed.js"),
   'Consumable': require("./consumable.js"),
   'Fertilizer': require("./fertilizer.js"),
-  'Tool': require("./tool.js"),
+  'Tool': require("./tool.js")
 };
 
 var _seedsDefinitions = {};
@@ -13,7 +14,7 @@ var _consumablesDefinitions = {};
 var _fertilizersDefinitions = {};
 var _toolsDefinitions = {};
 
-// These constants are the items type (wich is also their class name.)
+// These constants are the items type (which is also their class name.)
 exports.TYPE_SEED = "Seed";
 exports.TYPE_CONSUMABLE = "Consumable";
 exports.TYPE_FERTILIZER = "Fertilizer";
@@ -68,7 +69,7 @@ exports.GetSeed = function GetSeed(itemId) {
 
 /**
  * Obtain a consumable by it's item id.
- * @param {type} itemId
+ * @param {string} itemId
  * @returns {Consumable} The consumable that was found, or null if none exist with the given id.
  */
 exports.GetConsumable = function GetConsumable(itemId) {
@@ -77,7 +78,7 @@ exports.GetConsumable = function GetConsumable(itemId) {
 
 /**
  * Obtain a fertilizer by it's item id.
- * @param {type} itemId The item id
+ * @param {string} itemId The item id
  * @returns {Fertilizer} The fertilizer that was found, or null if none exist with the given id.
  */
 exports.GetFertilizer = function GetFertilizer(itemId) {
@@ -86,8 +87,8 @@ exports.GetFertilizer = function GetFertilizer(itemId) {
 
 /**
  * Obtain a tool by it's item id.
- * @param {type} itemId The item id
- * @returns {Fertilizer} The tool that was found, or null if none exist with the given id.
+ * @param {string} itemId The item id
+ * @returns {Tool} The tool that was found, or null if none exist with the given id.
  */
 exports.GetTool = function GetTool(itemId) {
   return _getItem(_toolsDefinitions, this.TYPE_TOOL, itemId);
@@ -95,23 +96,18 @@ exports.GetTool = function GetTool(itemId) {
 
 /**
  * Obtain an item by it's id.
- * @param {type} definitions The definition list of the item.
- * @param {type} className The class name to instantiate the item.
- * @param {type} itemId The id of the item.
- * @returns {type}
+ * @param {Object} definitions The definition list of the item.
+ * @param {string} className The class name to instantiate the item.
+ * @param {string} itemId The id of the item.
+ * @returns {Item}
  */
 function _getItem(definitions, className, itemId) {
   if (definitions.hasOwnProperty(itemId)) {
-    var functionName = "New" + className;
-    var thisClass = classes[className];
+    //var itemBase = new Item(itemId, className, definitions[itemId]);
 
-    var item = thisClass[functionName]();
+    var item = new classes[className]();
+    Item.call(item, definitions[itemId]);
     item._definition = definitions[itemId];
-
-    // Set the properties all items should have.
-    item.Type = className;
-    item.Id = itemId;
-    item.Name = definitions[itemId].Name;
 
     return item;
   }

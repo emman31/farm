@@ -22,11 +22,11 @@ Inventory.prototype.AddItems = function AddItem(items) {
 };
 
 Inventory.prototype.AddItem = function AddItem(item, number) {
-  if (this._items.hasOwnProperty(item.Id)) {
-    this._items[item.Id].Number += number;
+  if (this._items.hasOwnProperty(item.GetId())) {
+    this._items[item.GetId()].Number += number;
   }
   else {
-    this._items[item.Id] = {
+    this._items[item.GetId()] = {
       'Item': item,
       'Number': number
     };
@@ -43,8 +43,8 @@ Inventory.prototype.ContainsItem = function ContainsItem(itemId) {
 };
 
 Inventory.prototype.RemoveItem = function RemoveItem(item) {
-  if (this._items.hasOwnProperty(item.Id) && this._items[item.Id].Number > 0) {
-    this._items[item.Id].Number --;
+  if (this._items.hasOwnProperty(item.GetId()) && this._items[item.GetId()].Number > 0) {
+    this._items[item.GetId()].Number --;
   }
   this._socket.emit('response', "AddedItemToInventory", [this._getInventoryForClient()]);
 };
@@ -54,8 +54,8 @@ Inventory.prototype._getInventoryForClient = function _getInventoryForClient() {
   for (var itemId in this._items) {
     items.push({
       'Id': itemId,
-      'Name': this._items[itemId].Item.Name,
-      'Type': this._items[itemId].Item.Type,
+      'Name': this._items[itemId].Item.GetName(),
+      'Type': this._items[itemId].Item.GetType(),
       'Number': this._items[itemId].Number
     });
   }

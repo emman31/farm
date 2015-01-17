@@ -1,5 +1,4 @@
-var _cropFactory = require("./crop.js");
-var _seedFactory = require("./item/seed.js");
+var Crop = require("./crop.js");
 
 function Field(socket, width, height) {
   this._socket = socket;
@@ -11,7 +10,7 @@ function Field(socket, width, height) {
   for (var y = 0; y < height; y ++) {
     this._field[y] = new Array();
     for (var x = 0; x < width; x ++) {
-      this._field[y][x] = _cropFactory.NewCrop(this._socket, x, y);
+      this._field[y][x] = new Crop(this._socket, x, y);
     }
   }
 }
@@ -54,7 +53,7 @@ Field.prototype.HarvestAll = function HarvestAll() {
     for (var x = 0; x < this.Width; x ++) {
       if (this._field[y][x].IsFullyGrown()) {
         items.push(this._field[y][x].Harvest());
-        this._field[y][x] = _cropFactory.NewCrop(this._socket, x, y);
+        this._field[y][x] = new Crop(this._socket, x, y);
       }
     }
   }

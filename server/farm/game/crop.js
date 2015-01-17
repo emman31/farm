@@ -1,15 +1,10 @@
 var _logger = require('logger');
 var _time = require("./time.js");
 
-exports.NewCrop = function(socket, x, y) {
-  var newCrop = new Crop(x, y);
-  newCrop._socket = socket;
-  return newCrop;
-};
-
-function Crop(x, y) {
+function Crop(socket, x, y) {
   this._x = x;
   this._y = y;
+  this._socket = socket;
   this._resetCrop();
 }
 
@@ -127,3 +122,5 @@ Crop.prototype.GetSymbol = function GetSymbol() {
 
   return this._plantedSeed.GetSymbol(this._currentStage);
 };
+
+module.exports = Crop;

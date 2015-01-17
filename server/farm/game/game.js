@@ -29,7 +29,7 @@ Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
   if (this._inventory.ContainsItem(item_id)) {
     var item = this._inventory.GetItem(item_id);
     var mustRemoveItem = true;
-    switch(item.Type) {
+    switch(item.GetType()) {
       case _itemFactory.TYPE_SEED:
         this._field.Plant(item, x, y);
         break;
@@ -43,7 +43,7 @@ Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
         mustRemoveItem = false;
         break;
       default:
-        _logger.Log("Item of type '" + item.Type + "' cannot be used on crops");
+        _logger.Log("Item of type '" + item.GetType() + "' cannot be used on crops");
         mustRemoveItem = false;
         break;
     }

@@ -1,16 +1,10 @@
-exports.NewSeed = function NewSeed() {
-  return new Seed();
-};
+var Item = require("./item.js");
 
-function Seed() {
+function Seed(definition) {
   this._consumable = null;
 };
+Seed.prototype = Object.create(Item.prototype);
 
-/**
- * Get the time in seconds until the next stage.
- * @param {int} stageNb
- * @returns {int} Time in seconds
- */
 Seed.prototype.GetStageTimer = function GetStageTimer(stageNb) {
   if(this._definition.Stages[stageNb].hasOwnProperty("Time")) {
     return this._definition.Stages[stageNb].Time;
@@ -56,10 +50,6 @@ Seed.prototype.IsLastStage = function IsLastStage(stageNb) {
   return stageNb >= (this._definition.Stages.length - 1);
 };
 
-Seed.prototype.GetName = function GetName() {
-  return this._name;
-};
-
 Seed.prototype.GetConsumable = function GetConsumable() {
   return this._consumable;
 };
@@ -72,3 +62,5 @@ Seed.prototype.GetSeedForClient = function GetSeedForClient() {
     "FullGrownTimer": this.GetFullGrownTimer()
   };
 };
+
+module.exports = Seed;

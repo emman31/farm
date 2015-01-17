@@ -1,4 +1,5 @@
 {
+  "Type": "Fertilizer",
   "Id": "fertilizer_1",
   "Name": "Fertilizer 1",
   "Minerals": [
