@@ -38,7 +38,7 @@ Crop.prototype.PlantSeed = function(seed) {
   this._deathTimeoutId = _time.SetTimeout(this.Die, this._plantedSeed.GetDeathTimer(), this);
 
   this._socket.emit('response', "Plant", [this._plantedSeed.GetSeedForClient(), this._x, this._y]);
-  _logger.Log("Planted seed " + seed.Id);
+  _logger.Log("Planted seed " + seed.GetId());
 };
 
 Crop.prototype.Water = function() {
@@ -52,6 +52,10 @@ Crop.prototype.Water = function() {
   }
 };
 
+/**
+ * Fertilize a crop.
+ * @param {Fertilizer} fertilizer
+ */
 Crop.prototype.Fertilize = function Fertilize(fertilizer) {
   this._fertilizer = fertilizer;
   this._socket.emit('response', "Fertilized", [this._x, this._y]);
@@ -73,10 +77,6 @@ Crop.prototype.Die = function Die(crop) {
   }
 };
 
-Crop.prototype.GetPlantName = function() {
-  return this._plantedSeed.PlantName;
-};
-
 Crop.prototype.GrowPlant = function GrowPlant(crop) {
   crop._growingTimeoutId = null;
   if (!crop._dead && crop._plantedSeed.StageExists(crop._currentStage + 1)) {
@@ -95,6 +95,10 @@ Crop.prototype.GrowPlant = function GrowPlant(crop) {
   }
 };
 
+/**
+ *
+ * @returns {boolean}
+ */
 Crop.prototype.IsFullyGrown = function IsFullyGrown() {
   return this._plantedSeed !== null && this._plantedSeed.IsLastStage(this._currentStage);
 };
@@ -102,7 +106,7 @@ Crop.prototype.IsFullyGrown = function IsFullyGrown() {
 /**
  * Harvest the crop.
  * Resets all parameters and return the harvest result.
- * @returns {Harvest@pro;_plantedSeed@call;GetConsumable}
+ * @returns {Consumable}
  */
 Crop.prototype.Harvest = function Harvest() {
   var consumable = this._plantedSeed.GetConsumable();
@@ -114,6 +118,7 @@ Crop.prototype.Harvest = function Harvest() {
 /**
  * Get the symbol that represents whats is currently on the crop.
  * This is to send to client. Don't add unnecessary info.
+ * @returns {string}
  */
 Crop.prototype.GetSymbol = function GetSymbol() {
   if (this._plantedSeed === null) {

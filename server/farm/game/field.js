@@ -74,8 +74,8 @@ Field.prototype.WaterAllCrops = function WaterAllCrops() {
 
 /**
  * Water a crop.
- * @param {int} x the x coordinate of the crop in wich to plant.
- * @param {int} y the y coordinate of the crop in wich to plant.
+ * @param {int} x the x coordinate of the crop in which to plant.
+ * @param {int} y the y coordinate of the crop in which to plant.
  */
 Field.prototype.WaterCrop = function WaterCrop(x, y) {
   this._field[y][x].Water();

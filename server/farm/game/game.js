@@ -12,7 +12,7 @@ function Game(socket, width, height) {
 
 /**
  *
- * @returns {GetField@pro;_field@call;GetField}
+ * @returns {Field}
  */
 Game.prototype.GetField = function GetField() {
   return this._field.GetField();
@@ -20,10 +20,9 @@ Game.prototype.GetField = function GetField() {
 
 /**
  * Use the given item on the crop at given coordinates.
- * @param {type} item_id The item id.
- * @param {type} x
- * @param {type} y
- * @returns {undefined}
+ * @param {int} item_id The item id.
+ * @param {int} x
+ * @param {int} y
  */
 Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
   if (this._inventory.ContainsItem(item_id)) {

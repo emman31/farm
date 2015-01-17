@@ -12,7 +12,6 @@ function Time(socketIO, timeConfiguration) {
  * Proceed to the next day phase.
  * This function should be treated as static.
  * @param {Time} time
- * @returns {undefined}
  */
 Time.prototype.ChangeDayPhase = function ChangeDayPhase(time) {
   time._currentPhase ++;
@@ -34,8 +33,7 @@ Time.prototype.ChangeDayPhase = function ChangeDayPhase(time) {
 
 /**
  * Emit the current time to a client.
- * @param {type} socket
- * @returns {undefined}
+ * @param {Socket} socket
  */
 Time.prototype.EmitTime = function EmitTime(socket) {
   socket.emit('response', "RefreshTime",
@@ -49,11 +47,11 @@ Time.prototype.EmitTime = function EmitTime(socket) {
 
 /**
  * Custom function for setTimeout.
- * use this function for timeout to prevent the server from crashing.
+ * Use this function for timeout to prevent the server from crashing.
  * @param {Function} functionToExecute The function to execute when the time comes.
  * @param {int} seconds The umber of seconds before executing the function.
- * @param {type} args all args to pass to the function.
- * @returns {undefined}
+ * @param {*} args All args to pass to the function.
+ * @returns {int} The timeout id.
  */
 Time.SetTimeout = function SetTimeout(functionToExecute, seconds, args) {
   return setTimeout(
@@ -72,8 +70,7 @@ Time.SetTimeout = function SetTimeout(functionToExecute, seconds, args) {
 
 /**
  * Prevent a timeout from triggering.
- * @param {type} timeoutId The timeout Id as returned from SetTimeout.
- * @returns {undefined}
+ * @param {int} timeoutId The timeout Id as returned from SetTimeout.
  */
 Time.ClearTimeout = function ClearTimeout(timeoutId) {
   try{
