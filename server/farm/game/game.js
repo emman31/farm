@@ -55,29 +55,15 @@ Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
   }
 };
 
-/**
- * Plant a seed in a free crop.
- * @param {seed} seed The seed.
- */
-Game.prototype.PlantAnywhere = function PlantAnywhere(seed) {
-  if (this._inventory.ContainsItem(seed)) {
-    var planted = this._field.PlantAnywhere(seed);
-    if (planted) {
-      this._inventory.RemoveItem(seed);
-    }
-  }
-};
-
 Game.prototype.HarvestCrop = function HarvestCrop(x, y) {
-  var item = this._field.HarvestCrop(x, y);
-  if (item) {
-    this._inventory.AddItem(item);
+  if (this._field.IsFullyGrown(x, y)) {
+    var production = this._field.GetProduction(x, y);
+    var stacks = _itemFactory.GetStacksFromProduction(production);
+    this._inventory.AddItemStacks(stacks);
+    this._field.ClearCrop(x, y);
   }
-};
 
-Game.prototype.HarvestAll = function HarvestAll() {
-  var items = this._field.HarvestAll();
-  this._inventory.AddItems(items);
+
 };
 
 module.exports = Game;

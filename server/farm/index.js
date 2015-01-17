@@ -3,6 +3,7 @@ var _fs = require('fs');
 
 var Game = require("./game/game.js");
 var ItemFactory = require("./game/item/itemFactory.js");
+var ItemStack = require("./game/item/itemStack.js");
 var Time = require("./game/time.js");
 
 var games = [];
@@ -27,14 +28,13 @@ exports.InitServer = function(socketIO) {
 exports.NewGame = function NewGame(socket) {
   this._game = new Game(socket, 20, 10);
 
-  var seed = ItemFactory.GetSeed("seed_sample");
-  this._game._inventory.AddItem(seed, 5);
+  var startInventory = [
+    new ItemStack(ItemFactory.GetItem("seed_sample"), 5),
+    new ItemStack(ItemFactory.GetItem("fertilizer_1"), 5),
+    new ItemStack(ItemFactory.GetItem("watering_can"), 1)
+  ];
 
-  var fertilizer = ItemFactory.GetFertilizer("fertilizer_1");
-  this._game._inventory.AddItem(fertilizer, 5);
-
-  var watering_can = ItemFactory.GetTool("watering_can");
-  this._game._inventory.AddItem(watering_can, 1);
+  this._game._inventory.AddItemStacks(startInventory);
 
   this._time.EmitTime(socket);
 

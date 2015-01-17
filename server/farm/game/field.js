@@ -15,6 +15,10 @@ function Field(socket, width, height) {
   }
 }
 
+Field.prototype.IsFullyGrown = function IsFullyGrown(x, y) {
+  return this._field[y][x].IsFullyGrown();
+}
+
 /**
  * Plant a seed in a crop, if possible.
  * @param {Seed} seed The seed to plant
@@ -49,39 +53,17 @@ Field.prototype.PlantAnywhere = function PlantAnywhere(seed) {
 };
 
 /**
- * Harvest a fully grown crop.
  * @param {int} x
  * @param {int} y
- * @return {Item|boolean} The harvested item or false if the crop can't be harvested.
+ * @return {Object[]}
  */
-Field.prototype.HarvestCrop = function HarvestCrop(x, y) {
-  if (this._field[y][x].IsFullyGrown()) {
-    var item = this._field[y][x].Harvest();
-    this._field[y][x] = new Crop(this._socket, x, y);
-    return item;
-  }
-  else {
-    return false;
-  }
+Field.prototype.GetProduction = function GetProduction(x, y) {
+  return this._field[y][x].GetProduction();
 }
 
-/**
- * Harvest all fully grown crops and returns the resulting items.
- * @returns {Item[]}
- */
-Field.prototype.HarvestAll = function HarvestAll() {
-  var items = [];
-  for (var y = 0; y < this.Height; y ++) {
-    for (var x = 0; x < this.Width; x ++) {
-      var item = this.HarvestCrop(x, y);
-      if (item !== false) {
-        items.push(item);
-      }
-    }
-  }
-
-  return items;
-};
+Field.prototype.ClearCrop = function ClearCrop(x, y) {
+  return this._field[y][x].ClearCrop();
+}
 
 /**
  * Water all crops.

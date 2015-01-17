@@ -1,8 +1,6 @@
 var Item = require("./item.js");
 
-function Seed(definition) {
-  this._consumable = null;
-};
+function Seed() {};
 Seed.prototype = Object.create(Item.prototype);
 
 Seed.prototype.GetStageTimer = function GetStageTimer(stageNb) {
@@ -50,9 +48,9 @@ Seed.prototype.IsLastStage = function IsLastStage(stageNb) {
   return stageNb >= (this._definition.Stages.length - 1);
 };
 
-Seed.prototype.GetConsumable = function GetConsumable() {
-  return this._consumable;
-};
+Seed.prototype.GetProduction = function GetProduction() {
+  return this._definition.Produces;
+}
 
 Seed.prototype.GetSeedForClient = function GetSeedForClient() {
   return {

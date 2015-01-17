@@ -12,5 +12,15 @@
   "NeededMinerals": [
     "iron", "manganese", "copper", "zinc"
   ],
-  "ConsumableId" : "consumable_sample"
+
+  "Produces": [
+    {
+      "Id": "seed_sample",
+      "Min": 1,
+      "Max": 3
+    },
+    {
+      "Id": "consumable_sample"
+    }
+  ]
 }
