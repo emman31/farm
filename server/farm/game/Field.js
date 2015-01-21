@@ -1,4 +1,4 @@
-var Crop = require("./crop.js");
+var Crop = require("./Crop.js");
 
 function Field(socket, width, height) {
   this._socket = socket;

@@ -1,10 +1,10 @@
 var _logger = require("logger");
 var _fs = require('fs');
 
-var Game = require("./game/game.js");
-var ItemFactory = require("./game/item/itemFactory.js");
-var ItemStack = require("./game/item/itemStack.js");
-var Time = require("./game/time.js");
+var Game = require("./game/Game.js");
+var ItemFactory = require("./game/item/ItemFactory.js");
+var ItemStack = require("./game/item/ItemStack.js");
+var Time = require("./game/Time.js");
 
 var games = [];
 

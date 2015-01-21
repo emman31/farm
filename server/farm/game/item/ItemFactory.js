@@ -1,13 +1,13 @@
-var Item = require('./item.js');
-var ItemStack = require('./itemStack.js');
+var Item = require('./Item.js');
+var ItemStack = require('./ItemStack.js');
 var _fs = require('fs');
 var _logger = require("logger");
 
 var classes = {
-  'Seed': require("./seed.js"),
-  'Consumable': require("./consumable.js"),
-  'Fertilizer': require("./fertilizer.js"),
-  'Tool': require("./tool.js")
+  'Seed': require("./Seed.js"),
+  'Consumable': require("./Consumable.js"),
+  'Fertilizer': require("./Fertilizer.js"),
+  'Tool': require("./Tool.js")
 };
 
 var _itemDefinitions = {};

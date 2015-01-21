@@ -1,5 +1,5 @@
 var _logger = require('logger');
-var _time = require("./time.js");
+var _time = require("./Time.js");
 
 function Crop(socket, x, y) {
   this._x = x;

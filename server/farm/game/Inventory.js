@@ -1,5 +1,5 @@
 var _logger = require("logger");
-var ItemStack = require("./item/itemStack.js");
+var ItemStack = require("./item/ItemStack.js");
 
 function Inventory(socket) {
   this._socket = socket;

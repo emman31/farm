@@ -1,4 +1,4 @@
-var Item = require("./item.js");
+var Item = require("./Item.js");
 
 function Tool() {};
 Tool.prototype = Object.create(Item.prototype);

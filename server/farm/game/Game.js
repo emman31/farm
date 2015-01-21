@@ -1,8 +1,8 @@
 var _logger = require("logger");
 
-var Field = require("./field.js");
-var Inventory = require("./inventory.js");
-var _itemFactory = require("./item/itemFactory.js");
+var Field = require("./Field.js");
+var Inventory = require("./Inventory.js");
+var _itemFactory = require("./item/ItemFactory.js");
 
 function Game(socket, width, height) {
   this._socket = socket;
