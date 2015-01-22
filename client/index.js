@@ -1,5 +1,5 @@
 $(window).load(function document_ready() {
-  socket = io.connect(window.location.host);
+  var socket = io.connect(window.location.host);
   socket.emit('execute', 'NewGame');
 
   socket.on('response', function(executedFunction, returnValue) {

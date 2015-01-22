@@ -16,7 +16,7 @@ exports.InitServer = function(socketIO) {
   ItemFactory.LoadAllItems();
 
   // Start server time.
-  var timeConfigs = JSON.parse(_fs.readFileSync("server/farm/configs/time", 'utf8'));
+  var timeConfigs = JSON.parse(_fs.readFileSync("server/farm/configs/time.json", 'utf8'));
   this._time = new Time(socketIO, timeConfigs);
 };
 
