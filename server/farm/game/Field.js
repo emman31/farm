@@ -20,13 +20,25 @@ Field.prototype.IsFullyGrown = function IsFullyGrown(x, y) {
 }
 
 /**
+ * Check if it's possible to plant a seed on a crop.
+ * @param {Seed} seed
+ * @param {int} x
+ * @param {int} y
+ * @param {Action} onCanPlant - The action to execute when it'll be possible to plant on the crop.
+ * @returns {Boolean}
+ */
+Field.prototype.CanPlant = function CanPlant(seed, x, y, onCanPlant) {
+  return this._field[y][x].CanPlant(onCanPlant);
+};
+
+/**
  * Plant a seed in a crop, if possible.
  * @param {Seed} seed The seed to plant
  * @param {int} x The x coordinate of the crop in which to plant.
  * @param {int} y The y coordinate of the crop in which to plant.
  */
 Field.prototype.Plant = function Plant(seed, x, y) {
-  if (this._field[y][x].CanPlant()) {
+  if (this.CanPlant(seed, x, y, null)) { // To avoid any inconsistency, we double check.
     this._field[y][x].PlantSeed(seed);
     return true;
   }

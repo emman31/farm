@@ -5,6 +5,7 @@ function Crop(socket, x, y) {
   this._x = x;
   this._y = y;
   this._socket = socket;
+  this._onCanPlant = null;
   this._resetCrop();
 }
 
@@ -16,6 +17,10 @@ Crop.prototype._resetCrop = function _resetCrop() {
   this._growingTimeoutId = null;
   this._waterTimeoutId = null;
   this._deathTimeoutId = null;
+
+  if (this._onCanPlant !== null) {
+    this._onCanPlant.Execute();
+  }
 };
 
 Crop.prototype._clearTimeouts = function _clearTimeouts() {
@@ -26,9 +31,13 @@ Crop.prototype._clearTimeouts = function _clearTimeouts() {
 
 /**
  * Is it possible to plant a seed?
+ * @param {Action} [onCanPlant=null] - The action to execute when it'll be possible to plant on the crop.
  * @returns {Boolean}
  */
-Crop.prototype.CanPlant = function CanPlant() {
+Crop.prototype.CanPlant = function CanPlant(onCanPlant) {
+  if (onCanPlant !== null) {
+    this._onCanPlant = onCanPlant;
+  }
   return this._plantedSeed === null;
 };
 
