@@ -23,7 +23,7 @@ exports.InitServer = function(socketIO) {
 /**
  * Create a new game.
  * @param {type} socket
- * @returns {type}
+ * @returns {field: Field}
  */
 exports.NewGame = function NewGame(socket) {
   this._game = new Game(socket, 20, 10);

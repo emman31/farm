@@ -37,4 +37,10 @@ Action.prototype.Execute = function Execute() {
   this._obj[this._actionCallback](this._args);
 };
 
+Action.prototype.GetActionForClient = function GetActionForClient() {
+  return {
+    "Name": this._actionCallback
+  };
+};
+
 module.exports = Action;

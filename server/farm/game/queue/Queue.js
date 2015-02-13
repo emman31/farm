@@ -20,7 +20,6 @@ Queue.prototype.QueueAction = function QueueAction(obj, actionCallback, args, co
   _logger.Log("Queueing action " + actionCallback + ".");
   var action = new Action(obj, actionCallback, args, conditionCallback, timeout);
   this._actionsQueue.push(action);
-  // todo: weird bug: After harvesting for the first time, I can only plant one seed. The actions are being queued, but never executed.
   if (!this._running) {
     this.ExecuteNextAction();
   }
@@ -50,6 +49,14 @@ Queue.prototype.ExecuteNextAction = function ExecuteNextAction() {
 
 Queue.prototype.CancelNextAction = function CancelNextAction() {
   
+};
+
+Queue.prototype.GetQueueForClient = function GetQueueForClient() {
+  var actions = [];
+  for (var i = 0; i < this._actionsQueue.length; i ++) {
+    actions.push(this._actionsQueue[i].GetActionForClient());
+  }
+  return actions;
 };
 
 module.exports = Queue;

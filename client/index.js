@@ -65,7 +65,7 @@ $(window).load(function document_ready() {
   }
 
   function BindCropClick() {
-    $(".crop").click(function CropClicked() {
+    $(".crop").unbind('click').bind('click', function CropClicked() {
       if (selected_item !== null) {
         socket.emit('execute', 'UseOnCrop', [selected_item.attr('item_id'), $(this).attr('x'), $(this).attr('y')]);
       }
