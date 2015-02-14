@@ -51,13 +51,15 @@ Inventory.prototype.AddItemStacks = function AddItemStacks(stacks) {
   }
 
   this.RefreshClientInventory();
-}
+};
 
+/**
+ *
+ * @param itemId
+ * @returns {boolean}
+ */
 Inventory.prototype.ContainsItem = function ContainsItem(itemId) {
-  if (this._items.hasOwnProperty(itemId) && this._items[itemId].GetNumber() > 0) {
-    return true;
-  }
-  return false;
+  return this._items.hasOwnProperty(itemId) && this._items[itemId].GetNumber() > 0;
 };
 
 Inventory.prototype.RemoveItem = function RemoveItem(item) {

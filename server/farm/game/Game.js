@@ -4,6 +4,7 @@ var Field = require("./Field.js");
 var Inventory = require("./Inventory.js");
 var _itemFactory = require("./item/ItemFactory.js");
 var Queue = require("./queue/Queue.js");
+var PlantAction = require("./queue/PlantAction.js");
 
 function Game(socket, width, height) {
   this._socket = socket;
@@ -32,7 +33,7 @@ Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
     var mustRemoveItem = true;
     switch(item.GetType()) {
       case _itemFactory.TYPE_SEED:
-        this._queue.QueueAction(this, "Plant", [item, x, y], "CanPlant");
+        this._queue.QueueAction(new PlantAction(item, x, y, this._field, this._inventory));
         mustRemoveItem = false;
         break;
       case _itemFactory.TYPE_FERTILIZER:

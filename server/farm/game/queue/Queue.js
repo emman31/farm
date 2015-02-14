@@ -10,15 +10,9 @@ function Queue(socket) {
 
 /**
  * Add an action to the end of the Queue.
- * @param {object} obj - The object on which the Callbacks ar executed.
- * @param {string} actionCallback - The action callback that will be executed to perform the action.
- * @param {*[]} args - The arguments to pass to the condition callback and to the action callback.
- * @param {string} [conditionCallback=null] - The condition callback that will be called before executing the action (If not specified, the action has no condition to be executed.)
- * @param {int} [timeout=null] - The number of seconds the action should wait before giving up. (Should be specified if conditionCallback is specified.)
+ * @param {Action} action - The action to queue
  */
-Queue.prototype.QueueAction = function QueueAction(obj, actionCallback, args, conditionCallback, timeout) {
-  _logger.Log("Queueing action " + actionCallback + ".");
-  var action = new Action(obj, actionCallback, args, conditionCallback, timeout);
+Queue.prototype.QueueAction = function QueueAction(action) {
   this._actionsQueue.push(action);
   if (!this._running) {
     this.ExecuteNextAction();

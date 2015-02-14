@@ -20,7 +20,7 @@ ItemStack.prototype.Add = function Add(number) {
     number = 1;
   }
   this._number += number;
-}
+};
 
 /**
  * Combine another stack of item into this one.
@@ -30,7 +30,7 @@ ItemStack.prototype.CombineStack = function CombineStack(otherStack) {
   if (otherStack.GetItemId() === this.GetItemId()) {
     this.Add(otherStack.GetNumber());
   }
-}
+};
 
 /**
  * Remove items from the stack.
@@ -41,26 +41,26 @@ ItemStack.prototype.Remove = function Remove(number) {
     number = 1;
   }
   this._number -= number;
-}
+};
 
 ItemStack.prototype.GetNumber = function GetNumber() {
   return this._number;
-}
+};
 
 ItemStack.prototype.GetItem = function GetItem() {
   return this._item;
-}
+};
 
 ItemStack.prototype.GetItemId = function GetItemId() {
   return this._item.GetId();
-}
+};
 
 ItemStack.prototype.GetItemName = function GetItemName() {
   return this._item.GetName();
-}
+};
 
-ItemStack.prototype.GetItemType= function GetItemType() {
+ItemStack.prototype.GetItemType = function GetItemType() {
   return this._item.GetType();
-}
+};
 
 module.exports = ItemStack;

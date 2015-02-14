@@ -6,9 +6,9 @@ function Field(socket, width, height) {
   this.Height = height;
 
   // Fill the field with crops.
-  this._field = new Array();
+  this._field = [];
   for (var y = 0; y < height; y ++) {
-    this._field[y] = new Array();
+    this._field[y] = [];
     for (var x = 0; x < width; x ++) {
       this._field[y][x] = new Crop(this._socket, x, y);
     }
@@ -17,7 +17,7 @@ function Field(socket, width, height) {
 
 Field.prototype.IsFullyGrown = function IsFullyGrown(x, y) {
   return this._field[y][x].IsFullyGrown();
-}
+};
 
 /**
  * Check if it's possible to plant a seed on a crop.
@@ -36,6 +36,7 @@ Field.prototype.CanPlant = function CanPlant(seed, x, y, onCanPlant) {
  * @param {Seed} seed The seed to plant
  * @param {int} x The x coordinate of the crop in which to plant.
  * @param {int} y The y coordinate of the crop in which to plant.
+ * @returns {Boolean}
  */
 Field.prototype.Plant = function Plant(seed, x, y) {
   if (this.CanPlant(seed, x, y, null)) { // To avoid any inconsistency, we double check.
@@ -50,6 +51,7 @@ Field.prototype.Plant = function Plant(seed, x, y) {
 /**
  * Plant a seed in a free crop.
  * @param {Seed} seed The seed to plant
+ * @returns {Boolean}
  */
 Field.prototype.PlantAnywhere = function PlantAnywhere(seed) {
   var planted = false;
@@ -71,11 +73,11 @@ Field.prototype.PlantAnywhere = function PlantAnywhere(seed) {
  */
 Field.prototype.GetProduction = function GetProduction(x, y) {
   return this._field[y][x].GetProduction();
-}
+};
 
 Field.prototype.ClearCrop = function ClearCrop(x, y) {
   return this._field[y][x].ClearCrop();
-}
+};
 
 /**
  * Water all crops.
@@ -106,10 +108,10 @@ Field.prototype.FertilizeCrop = function FertilizeCrop(fertilizer, x, y) {
  * This is to send to client. Don't add unnecessary info.
  */
 Field.prototype.GetField = function GetField() {
-  var field = new Array();
+  var field = [];
 
   for (var y = 0; y < this.Height; y ++) {
-    field[y] = new Array();
+    field[y] = [];
     for (var x = 0; x < this.Width; x ++) {
       field[y][x] = this._field[y][x].GetSymbol();
     }
