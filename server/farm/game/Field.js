@@ -99,6 +99,13 @@ Field.prototype.WaterCrop = function WaterCrop(x, y) {
   this._field[y][x].Water();
 };
 
+/**
+ *
+ * @param fertilizer
+ * @param x
+ * @param y
+ * @returns {boolean}
+ */
 Field.prototype.FertilizeCrop = function FertilizeCrop(fertilizer, x, y) {
   return this._field[y][x].Fertilize(fertilizer);
 };

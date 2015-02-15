@@ -4,8 +4,14 @@ var ItemStack = require("./item/ItemStack.js");
 function Inventory(socket) {
   this._socket = socket;
   this._items = {};
+  this._onContainsItem = {};
 }
 
+/**
+ *
+ * @param {string} itemId
+ * @returns {Item|null}
+ */
 Inventory.prototype.GetItem = function GetItem(itemId) {
   if (this._items.hasOwnProperty(itemId) && this._items[itemId].GetNumber() > 0) {
     return this._items[itemId].GetItem();
@@ -14,7 +20,7 @@ Inventory.prototype.GetItem = function GetItem(itemId) {
     _logger.Log("Inventory does not contain item '" + itemId + "'.");
     return null;
   }
-}
+};
 
 /**
  * Add item to the inventory.
@@ -33,6 +39,7 @@ Inventory.prototype.AddItem = function AddItem(item, number) {
     this._items[item.GetId()] = new ItemStack(item, number);
   }
 
+  this._executeOnContainsItem(item.GetId());
   this.RefreshClientInventory();
 };
 
@@ -48,18 +55,55 @@ Inventory.prototype.AddItemStacks = function AddItemStacks(stacks) {
     else {
       this._items[stacks[i].GetItemId()] = stacks[i];
     }
+    this._executeOnContainsItem(stacks[i].GetItemId());
   }
 
   this.RefreshClientInventory();
 };
 
 /**
+ * Register an action to be executed when the inventory contains a certain item.
+ * @param {string} itemId
+ * @param {Action} onContainsItem
+ */
+Inventory.prototype.OnContainsItem = function OnContainsItem(itemId, onContainsItem) {
+  // Allows for multiple actions on the same item.
+  if (this._onContainsItem.hasOwnProperty(itemId)) {
+    this._onContainsItem[itemId].push(onContainsItem);
+  }
+  else {
+    this._onContainsItem[itemId] = [onContainsItem];
+  }
+};
+
+/**
+ * Execute the actions registered on the inventory containing a certain item.
+ * @param {string} itemId - The id of the "certain" item.
+ * @private
+ */
+Inventory.prototype._executeOnContainsItem = function _executeOnContainsItem(itemId) {
+  if (this._onContainsItem.hasOwnProperty(itemId)) {
+    for (var i = 0; i < this._onContainsItem[itemId].length; i ++) {
+      this._onContainsItem[itemId][i].Execute();
+    }
+    delete this._onContainsItem[itemId];
+  }
+};
+
+/**
  *
- * @param itemId
+ * @param {string} itemId
+ * @param {Action} [onContainsItem=null] - An action to execute when the inventory will contains the item.
  * @returns {boolean}
  */
-Inventory.prototype.ContainsItem = function ContainsItem(itemId) {
-  return this._items.hasOwnProperty(itemId) && this._items[itemId].GetNumber() > 0;
+Inventory.prototype.ContainsItem = function ContainsItem(itemId, onContainsItem) {
+  if (this._items.hasOwnProperty(itemId) && this._items[itemId].GetNumber() > 0) {
+    return true;
+  }
+  else if(onContainsItem != null) {
+    this.OnContainsItem(itemId, onContainsItem);
+  }
+  return false;
 };
 
 Inventory.prototype.RemoveItem = function RemoveItem(item) {

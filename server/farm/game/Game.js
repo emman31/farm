@@ -5,6 +5,8 @@ var Inventory = require("./Inventory.js");
 var _itemFactory = require("./item/ItemFactory.js");
 var Queue = require("./queue/Queue.js");
 var PlantAction = require("./queue/PlantAction.js");
+var WaterAction = require("./queue/WaterAction.js");
+var FertilizeAction = require("./queue/FertilizeAction.js");
 
 function Game(socket, width, height) {
   this._socket = socket;
@@ -15,7 +17,7 @@ function Game(socket, width, height) {
 
 /**
  *
- * @returns {Field}
+ * @returns {string[][]}
  */
 Game.prototype.GetField = function GetField() {
   return this._field.GetField();
@@ -37,11 +39,12 @@ Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
         mustRemoveItem = false;
         break;
       case _itemFactory.TYPE_FERTILIZER:
-        mustRemoveItem = this._field.FertilizeCrop(item, x, y);
+        this._queue.QueueAction(new FertilizeAction(item, x, y, this._field, this._inventory));
+        mustRemoveItem = false;
         break;
       case _itemFactory.TYPE_TOOL:
         if (item.GetAction() === 'water') {
-          this._field.WaterCrop(x, y);
+          this._queue.QueueAction(new WaterAction(item, x, y, this._field, this._inventory));
         }
         mustRemoveItem = false;
         break;

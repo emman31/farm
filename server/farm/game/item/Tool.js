@@ -1,7 +1,7 @@
 var Item = require("./Item.js");
 
 function Tool() {};
-Tool.prototype = Object.create(Item.prototype);
+Tool.prototype = new Item();
 
 Tool.prototype.GetAction = function GetAction() {
   return this._definition.Action;

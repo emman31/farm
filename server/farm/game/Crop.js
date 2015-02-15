@@ -65,7 +65,7 @@ Crop.prototype.Water = function() {
 /**
  * Fertilize a crop.
  * @param {Fertilizer} fertilizer
- * @return {bool} Fertilization succeeded?
+ * @return {boolean} Fertilization succeeded?
  */
 Crop.prototype.Fertilize = function Fertilize(fertilizer) {
   if (this._fertilizer === null) {

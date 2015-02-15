@@ -1,6 +1,6 @@
 var Item = require("./Item.js");
 
 function Consumable(){};
-Consumable.prototype = Object.create(Item.prototype);
+Consumable.prototype = new Item();
 
 module.exports = Consumable;

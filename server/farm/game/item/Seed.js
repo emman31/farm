@@ -1,7 +1,7 @@
 var Item = require("./Item.js");
 
 function Seed() {}
-Seed.prototype = Object.create(Item.prototype);
+Seed.prototype = new Item();
 
 Seed.prototype.GetStageTimer = function GetStageTimer(stageNb) {
   if(this._definition.Stages[stageNb].hasOwnProperty("Time")) {

@@ -16,7 +16,7 @@ function PlantAction(seed, x, y, field, inventory) {
   this._field = field;
   this._inventory = inventory;
 }
-PlantAction.prototype = Object.create(Action.prototype);
+PlantAction.prototype = new Action();
 
 /**
  * Check if the current action is ready to be executed.

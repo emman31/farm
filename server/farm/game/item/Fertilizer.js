@@ -1,6 +1,6 @@
 var Item = require("./Item.js");
 
 function Fertilizer() {};
-Fertilizer.prototype = Object.create(Item.prototype);
+Fertilizer.prototype = new Item();
 
 module.exports = Fertilizer;
