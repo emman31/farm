@@ -55,7 +55,7 @@ exports.GetItem = function GetItem(itemId) {
     _logger.Log("Item with id '" + itemId + "' does not exists.");
   }
   return null;
-}
+};
 
 /**
  * Get ItemStacks produced from a production.
