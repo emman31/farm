@@ -27,8 +27,7 @@ Queue.prototype.ExecuteNextAction = function ExecuteNextAction() {
     this._running = true;
     var action = this._actionsQueue.shift();
     var fallbackAction = new Action(this, "ExecuteNextAction");
-    if (action.CanExecute(fallbackAction)) {
-      action.Execute();
+    if (action.Execute(fallbackAction)) {
       this.ExecuteNextAction();
     }
     else {

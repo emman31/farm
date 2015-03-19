@@ -4,6 +4,7 @@ var Field = require("./Field.js");
 var Inventory = require("./Inventory.js");
 var _itemFactory = require("./item/ItemFactory.js");
 var Queue = require("./queue/Queue.js");
+var ActionFactory = require("./queue/ActionFactory.js");
 var PlantAction = require("./queue/PlantAction.js");
 var WaterAction = require("./queue/WaterAction.js");
 var FertilizeAction = require("./queue/FertilizeAction.js");
@@ -35,7 +36,8 @@ Game.prototype.UseOnCrop = function UseOnCrop(item_id, x, y) {
     var mustRemoveItem = true;
     switch(item.GetType()) {
       case _itemFactory.TYPE_SEED:
-        this._queue.QueueAction(new PlantAction(item, x, y, this._field, this._inventory));
+        this._queue.QueueAction(ActionFactory.GetPlantAction(item, x, y, this._field, this._inventory));
+        //this._queue.QueueAction(new PlantAction(item, x, y, this._field, this._inventory));
         mustRemoveItem = false;
         break;
       case _itemFactory.TYPE_FERTILIZER:
